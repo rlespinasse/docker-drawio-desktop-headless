@@ -15,7 +15,8 @@ And this prevent us to use it for automation in non-GUI environment such as CI t
 
 This docker image enable us to run the command-line client in a headless mode by using a configurable **X** server.
 
-Other minor addition have been set
+Other minor addition are available
+
 * Add timeout capability since the application can hang sometimes (due to user action needed in GUI mode)
 * Clear the output log from Electron Security Warning
 * Disable auto-update functionality to avoid unneccessary log
