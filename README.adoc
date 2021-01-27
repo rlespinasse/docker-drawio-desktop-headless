@@ -46,7 +46,7 @@ for days.  A duration of 0 disables the associated timeout.
 
 | **XVFB_DISPLAY**
 | Screen Display setup for XVFB
-| `:42`
+| `:42`
 
 | **XVFB_OPTIONS**
 | Options for Xvfb
