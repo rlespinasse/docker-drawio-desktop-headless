@@ -1,0 +1,41 @@
+Usage: drawio [options] [input file/folder]
+
+Options:
+  -V, --version                      output the version number
+  -c, --create                       creates a new empty file if no file is
+                                     passed
+  -k, --check                        does not overwrite existing files
+  -x, --export                       export the input file/folder based on the
+                                     given options
+  -r, --recursive                    for a folder input, recursively convert
+                                     all files in sub-folders also
+  -o, --output <output file/folder>  specify the output file/folder. If
+                                     omitted, the input file name is used for
+                                     output with the specified format as
+                                     extension
+  -f, --format <format>              if output file name extension is
+                                     specified, this option is ignored (file
+                                     type is determined from output extension,
+                                     possible export formats are pdf, png, jpg,
+                                     svg, vsdx, and xml) (default: "pdf")
+  -q, --quality <quality>            output image quality for JPEG (default:
+                                     90)
+  -t, --transparent                  set transparent background for PNG
+  -e, --embed-diagram                includes a copy of the diagram (for PNG
+                                     format only)
+  -b, --border <border>              sets the border width around the diagram
+                                     (default: 0)
+  -s, --scale <scale>                scales the diagram size
+  --width <width>                    fits the generated image/pdf into the
+                                     specified width, preserves aspect ratio.
+  --height <height>                  fits the generated image/pdf into the
+                                     specified height, preserves aspect ratio.
+  --crop                             crops PDF to diagram size
+  -a, --all-pages                    export all pages (for PDF format only)
+  -p, --page-index <pageIndex>       selects a specific page, if not specified
+                                     and the format is an image, the first page
+                                     is selected
+  -g, --page-range <from>..<to>      selects a page range (for PDF format only)
+  -u, --uncompressed                 Uncompressed XML output (for XML format
+                                     only)
+  -h, --help                         display help for command

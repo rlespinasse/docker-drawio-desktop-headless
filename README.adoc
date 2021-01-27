@@ -1,0 +1,83 @@
+= Draw.io Desktop Headless docker image
+
+image:https://img.shields.io/docker/v/rlespinasse/drawio-desktop-headless[Docker Version,link=https://hub.docker.com/r/rlespinasse/drawio-desktop-headless]
+image:https://img.shields.io/docker/pulls/rlespinasse/drawio-desktop-headless[Docker Pull,link=https://hub.docker.com/r/rlespinasse/drawio-desktop-headless]
+image:https://github.com/rlespinasse/docker-drawio-desktop-headless/workflows/Build/badge.svg[Build]
+
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop]
+
+== What is does
+
+Draw.io Desktop expose a command-line client to allow us to create, check or export diagrams.
+
+Since Draw.io Desktop is an GUI application, we need an GUI environment to run it.
+And this prevent us to use it for automation in non-GUI environment such as CI tools.
+
+This docker image enable us to run the command-line client in a headless mode by using a configurable **X** server.
+
+Other minor addition have been set
+* Add timeout capability since the application can hang sometimes (due to user action needed in GUI mode)
+* Clear the output log from Electron Security Warning
+* Disable auto-update functionality to avoid unneccessary log
+
+== Running
+
+[source,bash]
+----
+docker run -it -v $(pwd):/data rlespinasse/drawio-desktop-headless
+----
+
+=== Configuration
+
+[cols="2a,3a,1a",options="header"]
+|===
+
+| Environment Variable
+| Description
+| Default Value
+
+| **DRAWIO_DESKTOP_COMMAND_TIMEOUT**
+| To prevent Draw.io Desktop process to hang indefinitely.
+
+The value is a floating point number with an optional suffix: 's'
+for seconds (the default), 'm' for minutes, 'h' for hours or 'd'
+for days.  A duration of 0 disables the associated timeout.
+| `10s`
+
+| **XVFB_DISPLAY**
+| Screen Display setup for XVFB
+| `:42`
+
+| **XVFB_OPTIONS**
+| Options for Xvfb
+|
+
+| **ELECTRON_DISABLE_SECURITY_WARNINGS**
+| Avoid printing https://github.com/electron/electron/blob/master/docs/tutorial/security.md#electron-security-warnings[electron warning]
+| `true`
+
+| **DRAWIO_DISABLE_UPDATE**
+| Disable
+| `true`
+
+|===
+
+== Use as docker base image
+
+This docker image can be used as base image to build a higher-level tool upon it.
+
+In addition of running configuration, you have access to
+
+- `DRAWIO_DESKTOP_EXECUTABLE_PATH` to have access to the executable path of Draw.io Desktop.
+- `DRAWIO_DESKTOP_RUNNER_COMMAND_LINE` to run your script instead of the default one.
+
+== Thanks to
+
+Thanks for the community about https://github.com/jgraph/drawio-desktop/issues/127[the work around docker-image based of Draw.io Desktop].
+
+== Contributing
+
+Pull requests are welcome.
+For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
