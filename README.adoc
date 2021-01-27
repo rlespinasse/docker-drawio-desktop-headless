@@ -57,7 +57,7 @@ for days.  A duration of 0 disables the associated timeout.
 | `true`
 
 | **DRAWIO_DISABLE_UPDATE**
-| Disable
+| Disable auto-update of Draw.io Desktop
 | `true`
 
 |===
