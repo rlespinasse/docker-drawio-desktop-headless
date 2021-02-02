@@ -25,7 +25,7 @@ Other minor addition are available
 
 [source,bash]
 ----
-docker run -it -v $(pwd):/data rlespinasse/drawio-desktop-headless
+docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless
 ----
 
 === Configuration
