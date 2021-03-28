@@ -1,3 +1,10 @@
+# [1.1.0](http://github.com/rlespinasse/docker-drawio-desktop-headless/compare/1.0.1...1.1.0) (2021-03-28)
+
+
+### Features
+
+* update drawio-desktop ([fcd5a6f](http://github.com/rlespinasse/docker-drawio-desktop-headless/commit/fcd5a6f61400bdf93c9ec4472e5c4cdf38d90274))
+
 ## [1.0.1](http://github.com/rlespinasse/docker-drawio-desktop-headless/compare/1.0.0...1.0.1) (2021-02-02)
 
 
