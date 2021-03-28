@@ -23,5 +23,8 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
+  },
+  "dependencies": {
+    "bats": "^1.3.0"
   }
 }

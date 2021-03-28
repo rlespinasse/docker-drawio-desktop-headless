@@ -1,4 +1,3 @@
-WARNING: This process can hang sometimes, don't hesitate to kill it.
 Usage: drawio [options] [input file/folder]
 
 Options:
@@ -23,7 +22,7 @@ Options:
                                      90)
   -t, --transparent                  set transparent background for PNG
   -e, --embed-diagram                includes a copy of the diagram (for PNG
-                                     format only)
+                                     and PDF formats only)
   -b, --border <border>              sets the border width around the diagram
                                      (default: 0)
   -s, --scale <scale>                scales the diagram size
