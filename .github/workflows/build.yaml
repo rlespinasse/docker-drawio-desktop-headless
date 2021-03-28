@@ -8,10 +8,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: technote-space/auto-cancel-redundant-workflow@v1
       - uses: actions/checkout@v2
       - uses: rlespinasse/github-slug-action@v3.x
       - name: Build docker image
         run: make build
+        env:
+          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+      - name: Test docker image
+        run: |
+          make setup-test
+          make test
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
       - uses: cycjimmy/semantic-release-action@v2

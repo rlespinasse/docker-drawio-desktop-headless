@@ -3,7 +3,7 @@ set -e
 
 filter_electron_security_warnings() {
   while read -r line; do
-    echo "$line" | grep -v "The default of contextIsolation is deprecated"
+    echo "$line" | grep -v "is deprecated and will be changing"
   done
 }
 
