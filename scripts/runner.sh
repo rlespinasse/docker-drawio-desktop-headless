@@ -10,5 +10,5 @@ filter_electron_security_warnings() {
 if [ "${ELECTRON_DISABLE_SECURITY_WARNINGS}" == "true" ]; then
   "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2> >(filter_electron_security_warnings)
 else
-  "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox
+  "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2>&1
 fi
