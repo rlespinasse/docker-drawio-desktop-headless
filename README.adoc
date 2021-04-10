@@ -72,6 +72,11 @@ In addition of running configuration, you have access to
 - `DRAWIO_DESKTOP_EXECUTABLE_PATH` to have access to the executable path of Draw.io Desktop.
 - `DRAWIO_DESKTOP_RUNNER_COMMAND_LINE` to run your script instead of the default one.
 
+=== Used by
+
+* Docker image https://github.com/rlespinasse/drawio-export[**rlespinasse/drawio-export**] which enhance export capabilities of the **Draw.io Desktop Headless** docker image,
+** And GitHub Action https://github.com/rlespinasse/drawio-export-action[**rlespinasse/drawio-export-action**] which is build on top of **drawio-export** docker image.
+
 == Thanks to
 
 Thanks for the community about https://github.com/jgraph/drawio-desktop/issues/127[the work around docker-image based of Draw.io Desktop].
