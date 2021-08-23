@@ -5,20 +5,11 @@ WORKDIR "/opt/drawio-desktop"
 ENV DRAWIO_VERSION "14.6.13"
 RUN set -e; \
   apt-get update && apt-get install -y \
-  libappindicator3-1 \
-  libatspi2.0-0 \
-  libasound2 \
-  libgconf-2-4 \
-  libgtk-3-0 \
-  libnotify4 \
-  libnss3 \
-  libsecret-1-0 \
-  libxss1 \
-  libxtst6 \
-  libgbm-dev \
+  xvfb \
   wget \
-  xdg-utils \
-  xvfb; \
+  libappindicator3-1 \
+  libgbm1 \
+  libasound2; \
   wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb \
   && apt-get install /opt/drawio-desktop/drawio-amd64-${DRAWIO_VERSION}.deb \
   && rm -rf /opt/drawio-desktop/drawio-amd64-${DRAWIO_VERSION}.deb; \
