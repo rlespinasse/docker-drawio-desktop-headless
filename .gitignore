@@ -1,3 +1,6 @@
 node_modules/
 output/
 *.pdf
+*.svg
+!*-good.svg
+package-lock.json

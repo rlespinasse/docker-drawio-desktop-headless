@@ -12,8 +12,9 @@ DOCKER_OPTIONS?=
 run:
 	@docker run -t $(DOCKER_OPTIONS) -w /data -v $(PWD):/data ${DOCKER_IMAGE} ${RUN_ARGS}
 
-setup-test:
+setup-test-on-ci:
 	@npm install bats
+	@sudo apt-get install -y libxml2-utils
 
 test: cleanup build
 	@mkdir -p tests/output
