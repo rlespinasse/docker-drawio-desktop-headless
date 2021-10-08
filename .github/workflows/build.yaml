@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: technote-space/auto-cancel-redundant-workflow@v1
       - uses: actions/checkout@v2
@@ -25,3 +27,4 @@ jobs:
         uses: rlespinasse/release-that@v1.x
         with:
           without-prefix: true
+          github-token: ${{ secrets.GH_TOKEN }}
