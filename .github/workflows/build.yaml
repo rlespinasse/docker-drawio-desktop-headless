@@ -7,8 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    concurrency:
+      group: build-${{ github.ref }}-${{ github.event_name }}
+      cancel-in-progress: true
     steps:
-      - uses: technote-space/auto-cancel-redundant-workflow@v1
       - uses: actions/checkout@v2
       - uses: rlespinasse/github-slug-action@v3.x
       - name: Build docker image
@@ -21,8 +23,16 @@ jobs:
           make test
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    concurrency:
+      group: release-${{ github.ref }}-${{ github.event_name }}
+    steps:
+      - uses: actions/checkout@v2
       - name: Release this docker image
-        uses: rlespinasse/release-that@v1.x
+        uses: rlespinasse/release-that@v1
         with:
           without-prefix: true
           github-token: ${{ secrets.GH_TOKEN }}
