@@ -2,7 +2,7 @@ FROM debian:buster
 
 WORKDIR "/opt/drawio-desktop"
 
-ENV DRAWIO_VERSION "15.4.0"
+ENV DRAWIO_VERSION "16.0.0"
 RUN set -e; \
   apt-get update && apt-get install -y \
   xvfb \
