@@ -11,8 +11,8 @@ jobs:
       group: build-${{ github.ref }}-${{ github.event_name }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
-      - uses: rlespinasse/github-slug-action@v3.x
+      - uses: actions/checkout@v3
+      - uses: rlespinasse/github-slug-action@v4
       - name: Build docker image
         run: make build
         env:
@@ -30,7 +30,7 @@ jobs:
     concurrency:
       group: release-${{ github.ref }}-${{ github.event_name }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Release this docker image
         uses: rlespinasse/release-that@v1
         with:
