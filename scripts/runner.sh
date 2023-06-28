@@ -9,7 +9,8 @@ if [ "${ELECTRON_DISABLE_SECURITY_WARNINGS}" == "true" ]; then
     grep -v "Exiting GPU process" |
     grep -v "called with multiple threads" |
     grep -v "extension not supported" |
-    grep -v "Failed to send GpuControl.CreateCommandBuffer"
+    grep -v "Failed to send GpuControl.CreateCommandBuffer" |
+    grep -v "Init observer found at shutdown"
 else
   "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2>&1
 fi
