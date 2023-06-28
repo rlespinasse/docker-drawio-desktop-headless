@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: rlespinasse/github-slug-action@v3
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v4
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: rlespinasse/drawio-desktop-headless
           username: ${{ secrets.DOCKER_USERNAME }}
