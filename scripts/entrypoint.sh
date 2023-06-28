@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 # Start Xvfb
 export DISPLAY="${XVFB_DISPLAY}"

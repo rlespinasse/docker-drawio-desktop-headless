@@ -12,6 +12,7 @@ RUN set -e; \
   wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb \
   && apt-get install -y /opt/drawio-desktop/drawio-amd64-${DRAWIO_VERSION}.deb \
   && rm -rf /opt/drawio-desktop/drawio-amd64-${DRAWIO_VERSION}.deb; \
+  apt-get remove -y wget; \
   rm -rf /var/lib/apt/lists/*;
 
 COPY scripts/* ./
