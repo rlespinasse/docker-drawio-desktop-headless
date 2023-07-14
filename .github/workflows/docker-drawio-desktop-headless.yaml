@@ -31,6 +31,16 @@ jobs:
           path: "tests/output/*.log"
         if: ${{ failure() }}
 
+      - name: Test docker image // Store output files
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-docker-image-files
+          path: |
+            "tests/data/*.pdf"
+            "tests/data/*.svg"
+            "tests/data/*.png"
+        if: ${{ failure() }}
+
   release:
     runs-on: ubuntu-latest
     needs: build

@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2023-06-20T04:09:31.670Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" etag="e18gbWHugdKZuTiiPNY9" version="21.5.0" type="github">
+  <diagram name="第 1 页" id="it8AnUai0ouTSQVn7LDP">
+    <mxGraphModel dx="1434" dy="708" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rcWM7fpsVE3WYOQHMuyr-1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9F9F9;arcSize=4;shadow=0;strokeWidth=3;strokeColor=#F9F9F9;" vertex="1" parent="1">
+          <mxGeometry x="90" y="120" width="634" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="rcWM7fpsVE3WYOQHMuyr-2" value="&lt;font style=&quot;font-size: 15px&quot; face=&quot;Comic Sans MS&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;中文简体&lt;/span&gt;&lt;br&gt;&lt;/span&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=3;fillColor=#FFFFFF;strokeColor=#EEEEEE;fontColor=#5F39DD;fontStyle=1;gradientColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="133" y="179" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rcWM7fpsVE3WYOQHMuyr-3" value="&lt;font style=&quot;font-size: 15px&quot; face=&quot;Comic Sans MS&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;繁體&lt;/span&gt;&lt;br&gt;&lt;/span&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=3;fillColor=#FFFFFF;strokeColor=#EEEEEE;fontColor=#5F39DD;fontStyle=1;gradientColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="333" y="179" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rcWM7fpsVE3WYOQHMuyr-4" value="&lt;font style=&quot;font-size: 15px&quot; face=&quot;Comic Sans MS&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;font-weight: normal&quot;&gt;中英文&lt;/span&gt;&lt;br&gt;GraphSQL&lt;br&gt;&lt;/span&gt;&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=3;fillColor=#FFFFFF;strokeColor=#EEEEEE;fontColor=#5F39DD;fontStyle=1;gradientColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="533" y="179" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
