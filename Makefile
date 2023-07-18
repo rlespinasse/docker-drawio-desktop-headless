@@ -22,3 +22,9 @@ test: cleanup build
 
 cleanup:
 	@rm -rf tests/output
+	@rm -rf tests/data/*.pdf
+	@rm -rf tests/data/**/*.pdf
+	@rm -rf tests/data/*.svg
+	@rm -rf tests/data/**/*.svg
+	@rm -rf tests/data/*.png
+	@rm -rf tests/data/**/*.png

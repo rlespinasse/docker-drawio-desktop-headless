@@ -3,5 +3,5 @@ output/
 *.pdf
 *.svg
 *.png
-!*-good.svg
+!tests/expected/*.svg
 package-lock.json
