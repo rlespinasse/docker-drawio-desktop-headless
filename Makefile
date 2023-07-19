@@ -16,9 +16,7 @@ setup-test-on-ci:
 	@npm install bats
 	@sudo apt-get install -y libxml2-utils
 
-test: cleanup build
-	@mkdir -p tests/output
-	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
+test: cleanup build test-on-ci
 
 test-on-ci:
 	@mkdir -p tests/output
