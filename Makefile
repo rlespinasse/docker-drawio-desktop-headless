@@ -20,6 +20,10 @@ test: cleanup build
 	@mkdir -p tests/output
 	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
 
+test-on-ci:
+	@mkdir -p tests/output
+	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
+
 cleanup:
 	@rm -rf tests/output
 	@rm -rf tests/data/*.pdf
