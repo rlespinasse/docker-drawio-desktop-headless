@@ -38,6 +38,7 @@ jobs:
           name: test-docker-image-files
           path: |
             tests/data
+            !tests/data/*.drawio
             !tests/data/*/*.drawio
         if: ${{ always() }}
 
