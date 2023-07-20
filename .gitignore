@@ -2,5 +2,7 @@ node_modules/
 output/
 *.pdf
 *.svg
-!*-good.svg
+*.png
+!tests/expected/*.svg
+!tests/expected/*.png
 package-lock.json

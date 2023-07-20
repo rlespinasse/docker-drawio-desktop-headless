@@ -15,21 +15,32 @@ jobs:
       - uses: rlespinasse/github-slug-action@v4
       - name: Build docker image
         run: make build
+        shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+      - name: Setup CI for test
+        run: make setup-test-on-ci
+        shell: bash
       - name: Test docker image
-        run: |
-          make setup-test-on-ci
-          make test
+        run: make test-on-ci
+        shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
-
       - name: Test docker image // Store output logs
         uses: actions/upload-artifact@v3
         with:
           name: test-docker-image-logs
           path: "tests/output/*.log"
-        if: ${{ failure() }}
+        if: ${{ always() }}
+      - name: Test docker image // Store output files
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-docker-image-files
+          path: |
+            tests/data
+            !tests/data/*.drawio
+            !tests/data/*/*.drawio
+        if: ${{ always() }}
 
   release:
     runs-on: ubuntu-latest
