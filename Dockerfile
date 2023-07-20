@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 WORKDIR "/opt/drawio-desktop"
 
-ENV DRAWIO_VERSION "21.5.1"
+ENV DRAWIO_VERSION "21.6.1"
 RUN set -e; \
   apt-get update && apt-get install -y \
   xvfb \
