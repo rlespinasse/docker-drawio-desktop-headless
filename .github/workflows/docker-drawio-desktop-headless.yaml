@@ -37,12 +37,8 @@ jobs:
         with:
           name: test-docker-image-files
           path: |
-            "tests/data/*.pdf"
-            "tests/data/**/*.pdf"
-            "tests/data/*.svg"
-            "tests/data/**/*.svg"
-            "tests/data/*.png"
-            "tests/data/**/*.png"
+            tests/data
+            !tests/data/*/*.drawio
         if: ${{ always() }}
 
   release:
