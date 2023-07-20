@@ -20,6 +20,15 @@ Other minor addition are available
 * Add timeout capability since the application can hang sometimes (due to user action needed in GUI mode)
 * Clear the output log from Electron Security Warning
 * Disable auto-update functionality to avoid unneccessary log
+* Multiple fonts from
+** [fonts-liberation](https://packages.debian.org/bullseye/fonts-liberation)
+** [fonts-arphic-ukai](https://packages.debian.org/bullseye/fonts-arphic-ukai)
+** [fonts-arphic-uming](https://packages.debian.org/bullseye/fonts-arphic-uming)
+** [fonts-noto](https://packages.debian.org/bullseye/fonts-noto)
+** [fonts-noto-cjk](https://packages.debian.org/bullseye/fonts-noto-cjk)
+** [fonts-ipafont-mincho](https://packages.debian.org/bullseye/fonts-ipafont-mincho)
+** [fonts-ipafont-gothic](https://packages.debian.org/bullseye/fonts-ipafont-gothic)
+** [fonts-unfonts-core](https://packages.debian.org/bullseye/fonts-unfonts-core)
 
 == Running
 
