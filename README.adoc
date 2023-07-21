@@ -30,6 +30,8 @@ Other minor addition are available
 ** https://packages.debian.org/bullseye/fonts-ipafont-gothic[fonts-ipafont-gothic]
 ** https://packages.debian.org/bullseye/fonts-unfonts-core[fonts-unfonts-core]
 
+NOTE: Want a new font package, modify the `Dockerfile` to install the missing package.
+
 == Running
 
 [source,bash]
