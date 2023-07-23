@@ -14,11 +14,11 @@ if [ "${ELECTRON_DISABLE_SECURITY_WARNINGS}" == "true" ]; then
     # Remove 'deb support' logs
     # since 'autoUpdater.logger.transports.file.level' is set as 'info' on drawio-desktop
     grep -v "Checking for beta autoupdate feature for deb/rpm distributions" |
-    grep -v "Found package-type:deb"
+    grep -v "Found package-type: deb"
 else
   "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2>&1 |
     # Remove 'deb support' logs
     # since 'autoUpdater.logger.transports.file.level' is set as 'info' on drawio-desktop
     grep -v "Checking for beta autoupdate feature for deb/rpm distributions" |
-    grep -v "Found package-type:deb"
+    grep -v "Found package-type: deb"
 fi
