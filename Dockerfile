@@ -17,7 +17,7 @@ RUN set -e; \
   apt-get remove -y wget; \
   rm -rf /var/lib/apt/lists/*;
 
-COPY scripts/* ./
+COPY src/* ./
 
 ENV ELECTRON_DISABLE_SECURITY_WARNINGS "true"
 ENV DRAWIO_DISABLE_UPDATE "true"
