@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: rlespinasse/github-slug-action@v3
+      - uses: rlespinasse/github-slug-action@v4
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: rlespinasse/drawio-desktop-headless
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "latest,${{ env.GITHUB_REF_SLUG }}"
+          tags: 'latest,${{ env.GITHUB_REF_SLUG }}'

@@ -6,20 +6,20 @@ image:https://github.com/rlespinasse/docker-drawio-desktop-headless/workflows/Bu
 
 Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop '21.6.5']
 
-== What is does
+== What it does
 
-Draw.io Desktop expose a command-line client to allow us to create, check or export diagrams.
+Draw.io Desktop exposes a command-line client to allow us to create, check or export diagrams.
 
-Since Draw.io Desktop is an GUI application, we need an GUI environment to run it.
-And this prevent us to use it for automation in non-GUI environment such as CI tools.
+Since Draw.io Desktop is a GUI application, we need a GUI environment to run it.
+And this prevents us to use it for automation in non-GUI environments such as CI tools.
 
-This docker image enable us to run the command-line client in a headless mode by using a configurable **X** server.
+This docker image enables us to run the command-line client in a headless mode by using a configurable **X** server.
 
-Other minor addition are available
+Other minor additions are available
 
 * Add timeout capability since the application can hang sometimes (due to user action needed in GUI mode)
 * Clear the output log from Electron Security Warning
-* Disable auto-update functionality to avoid unneccessary log
+* Disable auto-update functionality to avoid unnecessary log
 * Multiple fonts from
 ** https://packages.debian.org/bullseye/fonts-liberation[fonts-liberation]
 ** https://packages.debian.org/bullseye/fonts-arphic-ukai[fonts-arphic-ukai]
@@ -76,9 +76,9 @@ for days.  A duration of 0 disables the associated timeout.
 
 == Use as docker base image
 
-This docker image can be used as base image to build a higher-level tool upon it.
+This docker image can be used as the base image to build a higher-level tool upon it.
 
-In addition of running configuration, you have access to
+In addition to running configuration, you have access to
 
 - `DRAWIO_DESKTOP_EXECUTABLE_PATH` to have access to the executable path of Draw.io Desktop.
 - `DRAWIO_DESKTOP_RUNNER_COMMAND_LINE` to run your script instead of the default one.
@@ -90,7 +90,7 @@ In addition of running configuration, you have access to
 
 == Thanks to
 
-Thanks for the community about https://github.com/jgraph/drawio-desktop/issues/127[the work around docker-image based of Draw.io Desktop].
+Thanks for the community about https://github.com/jgraph/drawio-desktop/issues/127[the workaround docker-image based on Draw.io Desktop].
 
 == Contributing
 
