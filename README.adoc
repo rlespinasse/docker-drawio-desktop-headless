@@ -4,7 +4,7 @@ image:https://img.shields.io/docker/v/rlespinasse/drawio-desktop-headless[Docker
 image:https://img.shields.io/docker/pulls/rlespinasse/drawio-desktop-headless[Docker Pull,link=https://hub.docker.com/r/rlespinasse/drawio-desktop-headless]
 image:https://github.com/rlespinasse/docker-drawio-desktop-headless/workflows/Build/badge.svg[Build]
 
-Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop]
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop '21.6.5']
 
 == What is does
 
