@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Prepare output cleaning
-touch unwanted-lines.txt
+touch "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
 if [[ "${ELECTRON_DISABLE_SECURITY_WARNINGS:?}" == "true" ]]; then
   cat "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-security-warnings.txt" >>"${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
 fi
@@ -14,4 +14,4 @@ export DISPLAY="${XVFB_DISPLAY:?}"
 Xvfb "${XVFB_DISPLAY:?}" ${XVFB_OPTIONS} &
 
 # Run and filter output
-timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" "${DRAWIO_DESKTOP_RUNNER_COMMAND_LINE:?}" "$@" | grep -Fvf "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
+timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" "${DRAWIO_DESKTOP_RUNNER_COMMAND_LINE:?}" "$@" 2>&1 | grep -Fvf "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
