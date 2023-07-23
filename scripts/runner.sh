@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "${ELECTRON_DISABLE_SECURITY_WARNINGS}" == "true" ]; then
-  "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2>&1 |
+if [[ "${ELECTRON_DISABLE_SECURITY_WARNINGS:?}" == "true" ]]; then
+  "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox 2>&1 |
     grep -v "Failed to connect to socket" |
     grep -v "Could not parse server address" |
     grep -v "Floss manager not present" |
@@ -16,7 +16,7 @@ if [ "${ELECTRON_DISABLE_SECURITY_WARNINGS}" == "true" ]; then
     grep -v "Checking for beta autoupdate feature for deb/rpm distributions" |
     grep -v "Found package-type: deb"
 else
-  "$DRAWIO_DESKTOP_EXECUTABLE_PATH" "$@" --no-sandbox 2>&1 |
+  "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox 2>&1 |
     # Remove 'deb support' logs
     # since 'autoUpdater.logger.transports.file.level' is set as 'info' on drawio-desktop
     grep -v "Checking for beta autoupdate feature for deb/rpm distributions" |

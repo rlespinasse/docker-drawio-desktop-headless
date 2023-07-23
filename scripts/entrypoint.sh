@@ -2,9 +2,8 @@
 set -euo pipefail
 
 # Start Xvfb
-export DISPLAY="${XVFB_DISPLAY}"
+export DISPLAY="${XVFB_DISPLAY:?}"
 # shellcheck disable=SC2086
-Xvfb "${XVFB_DISPLAY}" ${XVFB_OPTIONS} &
+Xvfb "${XVFB_DISPLAY:?}" ${XVFB_OPTIONS:?} &
 
-# shellcheck disable=SC2068
-timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT}" "${DRAWIO_DESKTOP_RUNNER_COMMAND_LINE}" "$@"
+timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" "${DRAWIO_DESKTOP_RUNNER_COMMAND_LINE:?}" "$@"
