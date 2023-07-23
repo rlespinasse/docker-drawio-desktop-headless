@@ -19,10 +19,10 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
       - name: Setup CI for test
-        run: make setup-test-on-ci
+        run: make test-ci-setup
         shell: bash
       - name: Test docker image
-        run: make test-on-ci
+        run: make test-ci
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
@@ -44,7 +44,8 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - build
     concurrency:
       group: release-${{ github.ref }}-${{ github.event_name }}
     steps:

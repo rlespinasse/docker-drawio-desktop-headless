@@ -1,4 +1,4 @@
-.PHONY: build run setup-test test cleanup
+.PHONY: build build-no-cache cleanup run test test-ci-setup test-ci
 
 DOCKER_IMAGE?=rlespinasse/drawio-desktop-headless:local
 build:
@@ -6,21 +6,6 @@ build:
 
 build-no-cache:
 	@docker build --no-cache --progress plain -t ${DOCKER_IMAGE} .
-
-RUN_ARGS?=
-DOCKER_OPTIONS?=
-run:
-	@docker run -t $(DOCKER_OPTIONS) -w /data -v $(PWD):/data ${DOCKER_IMAGE} ${RUN_ARGS}
-
-setup-test-on-ci:
-	@npm install bats
-	@sudo apt-get install -y libxml2-utils
-
-test: cleanup build test-on-ci
-
-test-on-ci:
-	@mkdir -p tests/output
-	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
 
 cleanup:
 	@rm -rf tests/output
@@ -30,3 +15,18 @@ cleanup:
 	@rm -rf tests/data/**/*.svg
 	@rm -rf tests/data/*.png
 	@rm -rf tests/data/**/*.png
+
+RUN_ARGS?=
+DOCKER_OPTIONS?=
+run:
+	@docker run -t $(DOCKER_OPTIONS) -w /data -v $(PWD):/data ${DOCKER_IMAGE} ${RUN_ARGS}
+
+test: cleanup build test-ci
+
+test-ci-setup:
+	@npm install bats
+	@sudo apt-get install -y libxml2-utils
+
+test-ci:
+	@mkdir -p tests/output
+	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
