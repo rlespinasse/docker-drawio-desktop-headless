@@ -13,5 +13,5 @@ export DISPLAY="${XVFB_DISPLAY:?}"
 # shellcheck disable=SC2154
 Xvfb "${XVFB_DISPLAY:?}" ${XVFB_OPTIONS} &
 
-# Run and filter output
-timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" bash -c "${DRAWIO_DESKTOP_RUNNER_COMMAND_LINE:?} $* 2>&1 | grep -Fvf ${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
+# Run
+timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/runner_wrapper.sh" "$@"
