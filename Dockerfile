@@ -17,12 +17,13 @@ RUN set -e; \
   apt-get remove -y wget; \
   rm -rf /var/lib/apt/lists/*;
 
-COPY scripts/* ./
+COPY src/* ./
 
 ENV ELECTRON_DISABLE_SECURITY_WARNINGS "true"
 ENV DRAWIO_DISABLE_UPDATE "true"
 ENV DRAWIO_DESKTOP_COMMAND_TIMEOUT "10s"
 ENV DRAWIO_DESKTOP_EXECUTABLE_PATH "/opt/drawio/drawio"
+ENV DRAWIO_DESKTOP_SOURCE_FOLDER "/opt/drawio-desktop"
 ENV DRAWIO_DESKTOP_RUNNER_COMMAND_LINE "/opt/drawio-desktop/runner.sh"
 ENV XVFB_DISPLAY ":42"
 ENV XVFB_OPTIONS ""
