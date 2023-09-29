@@ -3,7 +3,7 @@ ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
 
-ENV DRAWIO_VERSION "21.8.2"
+ENV DRAWIO_VERSION "22.0.0"
 RUN set -e; \
   echo "selected arch: ${TARGETARCH}"; \
   apt-get update && apt-get install -y \
