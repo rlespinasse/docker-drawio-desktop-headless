@@ -3,21 +3,32 @@ ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
 
-ENV DRAWIO_VERSION "21.8.2"
-RUN set -e; \
-  echo "selected arch: ${TARGETARCH}"; \
-  apt-get update && apt-get install -y \
-  xvfb \
-  wget \
-  libgbm1 \
-  libasound2 \
-  # Fonts
-  fonts-liberation fonts-arphic-ukai fonts-arphic-uming fonts-noto fonts-noto-cjk fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core \
-  ; wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb \
-  && apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb \
-  && rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb; \
-  apt-get remove -y wget; \
-  rm -rf /var/lib/apt/lists/*;
+RUN <<EOF
+set -e
+echo "selected arch: ${TARGETARCH}"
+
+# Deps
+apt-get update
+apt-get install -y xvfb wget libgbm1 libasound2
+
+# Drawio Desktop
+DRAWIO_VERSION="21.8.2"
+wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
+apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
+rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
+
+# Additional Fonts
+apt-get install -y fonts-liberation \
+  fonts-arphic-ukai fonts-arphic-uming \
+  fonts-noto fonts-noto-cjk \
+  fonts-ipafont-mincho fonts-ipafont-gothic \
+  fonts-unfonts-core
+
+# Cleanup layer
+apt-get remove -y wget
+rm -rf /var/lib/apt/lists/*
+
+EOF
 
 COPY src/* ./
 
