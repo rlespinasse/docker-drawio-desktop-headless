@@ -6,12 +6,12 @@ on:
 permissions:
   contents: write
   pull-requests: write
+concurrency:
+  group: dependencies-autoupdate
+  cancel-in-progress: true
 jobs:
   autoupdate:
     runs-on: ubuntu-latest
-    concurrency:
-      group: autoupdate-${{ github.ref }}-${{ github.event_name }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
       - run: make autoupdate
