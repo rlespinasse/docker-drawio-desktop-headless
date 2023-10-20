@@ -40,3 +40,12 @@ test-ci-setup:
 test-ci:
 	@mkdir -p tests/output
 	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
+
+autoupdate:
+	$(MAKE) autoupdate-drawio-desktop
+
+autoupdate-drawio-desktop:
+	$(eval DRAWIO_DESKTOP_RELEASE := $(shell gh release list --repo jgraph/drawio-desktop | grep "Latest" | cut -f1))
+	sed -i 's/DRAWIO_VERSION=.*/DRAWIO_VERSION="$(DRAWIO_DESKTOP_RELEASE)"/' Dockerfile
+	sed -i 's/Draw\.io Desktop v.*/Draw.io Desktop v$(DRAWIO_DESKTOP_RELEASE)/' README.adoc
+

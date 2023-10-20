@@ -1,0 +1,23 @@
+name: Dependencies Auto-Update
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Every Monday at midnight (UTC)
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: dependencies-autoupdate
+  cancel-in-progress: true
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make autoupdate
+        shell: bash
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          title: "feat: bump dependencies"
+          branch: dependencies-autoupdate
+          reviewers: rlespinasse
