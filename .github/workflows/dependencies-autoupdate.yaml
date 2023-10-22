@@ -23,3 +23,4 @@ jobs:
           title: "feat: bump dependencies"
           branch: dependencies-autoupdate
           reviewers: rlespinasse
+          token: ${{ secrets.GH_TOKEN }}
