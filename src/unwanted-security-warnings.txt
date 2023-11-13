@@ -6,3 +6,4 @@ called with multiple threads
 extension not supported
 Failed to send GpuControl.CreateCommandBuffer
 Init observer found at shutdown
+Failed to call method
