@@ -9,6 +9,7 @@ docker_test() {
   shift
   shift
   shift
+  echo docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@" >>tests/output/$output_file-command.log
   run docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@"
 
   # Remove timed logging tags on electron logs by default.
