@@ -13,7 +13,7 @@ jobs:
   autoupdate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: make autoupdate-drawio-desktop
         id: autoupdate-drawio-desktop
         env:
@@ -23,5 +23,4 @@ jobs:
         with:
           title: "feat: update to drawio-desktop ${{ steps.autoupdate-drawio-desktop.outputs.release_version }}"
           branch: autoupdate-drawio-desktop
-          reviewers: rlespinasse
           token: ${{ secrets.GH_TOKEN }}
