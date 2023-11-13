@@ -18,8 +18,9 @@ docker_test() {
   [ "$status" -eq $status ]
   if [ -f "tests/expected/$output_file.log" ]; then
     [ "$(diff --strip-trailing-cr "tests/output/$output_file-comp.log" "tests/expected/$output_file.log")" = "" ]
-  fi
-  if [ -f "tests/expected/uniq-$output_file.log" ]; then
+  elif [ -f "tests/expected/uniq-$output_file.log" ]; then
     [ "$(diff --strip-trailing-cr <(sort -u "tests/output/$output_file-comp.log") "tests/expected/uniq-$output_file.log")" = "" ]
+  else
+    echo "No output test file at 'tests/expected/[uniq-]$output_file.log'"
   fi
 }
