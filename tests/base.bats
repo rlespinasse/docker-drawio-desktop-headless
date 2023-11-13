@@ -9,6 +9,7 @@ docker_test() {
   shift
   shift
   shift
+  echo docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@" >>tests/output/$output_file-command.log
   run docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@"
 
   # Remove timed logging tags on electron logs by default.
@@ -16,9 +17,13 @@ docker_test() {
 
   [ "$status" -eq $status ]
   if [ -f "tests/expected/$output_file.log" ]; then
-    [ "$(diff --strip-trailing-cr "tests/output/$output_file-comp.log" "tests/expected/$output_file.log")" = "" ]
+    diff -u --strip-trailing-cr "tests/output/$output_file-comp.log" "tests/expected/$output_file.log" >"tests/output/$output_file-diff.log"
+  elif [ -f "tests/expected/uniq-$output_file.log" ]; then
+    diff -u --strip-trailing-cr <(sort -u "tests/output/$output_file-comp.log") "tests/expected/uniq-$output_file.log" >"tests/output/$output_file-diff.log"
+  else
+    echo "No output test file at 'tests/expected/[uniq-]$output_file.log'"
   fi
-  if [ -f "tests/expected/uniq-$output_file.log" ]; then
-    [ "$(diff --strip-trailing-cr <(sort -u "tests/output/$output_file-comp.log") "tests/expected/uniq-$output_file.log")" = "" ]
+  if [ -f "tests/output/$output_file-diff.log"]; then
+    [ "$(cat "tests/output/$output_file-diff.log")" = "" ]
   fi
 }
