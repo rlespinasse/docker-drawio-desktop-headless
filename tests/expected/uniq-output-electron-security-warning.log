@@ -1,5 +1,4 @@
-Exiting GPU process due to errors during initialization
-Failed to call method: org.freedesktop.portal.Settings.Read: object_path= /org/freedesktop/portal/desktop: unknown error type:
+Failed to call method: org.freedesktop.portal.Settings.Read: object_path= /org/freedesktop/portal/desktop: unknown error type: 
 Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
 Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
 Floss manager not present, cannot set Floss enable/disable.

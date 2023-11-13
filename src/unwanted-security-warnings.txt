@@ -1,9 +1,6 @@
-Failed to connect to socket
-Could not parse server address
-Floss manager not present
-Exiting GPU process
-called with multiple threads
-extension not supported
-Failed to send GpuControl.CreateCommandBuffer
-Init observer found at shutdown
 Failed to call method
+Failed to connect to the bus
+Floss manager not present
+Init observer found at shutdown
+InitializeSandbox
+extension not supported
