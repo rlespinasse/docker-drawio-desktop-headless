@@ -1,5 +1,6 @@
 Failed to call method
 Failed to connect to the bus
+Failed to post task
 Floss manager not present
 Init observer found at shutdown
 InitializeSandbox
