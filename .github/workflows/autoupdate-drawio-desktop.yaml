@@ -19,7 +19,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         shell: bash
-      - uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v6
         with:
           title: "feat: update to drawio-desktop ${{ steps.autoupdate-drawio-desktop.outputs.release_version }}"
           branch: autoupdate-drawio-desktop
