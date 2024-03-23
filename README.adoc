@@ -30,10 +30,49 @@ NOTE: Want a new font package, modify the `Dockerfile` to install the missing pa
 
 == Running
 
-[source,bash]
+.Default run
+[source,console]
 ----
-docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless
+$ docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless
+Usage: drawio [options] [input file/folder]
+...
 ----
+
+.Run using non-root user
+[source,console]
+----
+$ docker run -it \
+          -u $(id -u):$(id -g) \ <1>
+          -e HOME=/data/home -w /data \ <2>
+          -v $(pwd):/data rlespinasse/drawio-desktop-headless
+Usage: drawio [options] [input file/folder]
+...
+----
+<1> Enable non-root user
+<2> env HOME need to contains the path of the working directory (can be the same)
++
+.If env HOME is not set properly
+[%collapsible]
+====
+[,console]
+----
+Fontconfig error: No writable cache directories
+A JavaScript error occurred in the main process
+Uncaught Exception:
+Error: Failed to get 'userData' path
+    at initDataListener (/opt/drawio/resources/app.asar/node_modules/electron-store/index.js:15:19)
+    at new ElectronStore (/opt/drawio/resources/app.asar/node_modules/electron-store/index.js:48:32)
+    at Object.<anonymous> (/opt/drawio/resources/app.asar/src/main/electron.js:15:15)
+    at Module._compile (node:internal/modules/cjs/loader:1271:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1326:10)
+    at Module.load (node:internal/modules/cjs/loader:1126:32)
+    at Module._load (node:internal/modules/cjs/loader:967:12)
+    at l._load (node:electron/js2c/asar_bundle:2:13642)
+    at node:electron/js2c/browser_init:2:120247
+    at node:electron/js2c/browser_init:2:120456
+/opt/drawio-desktop/runner.sh: line 4:    15 Trace/breakpoint trap   (core dumped) "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox --disable-gpu
+----
+====
 
 === Configuration
 
@@ -58,7 +97,7 @@ for days.  A duration of 0 disables the associated timeout.
 
 | **XVFB_OPTIONS**
 | Options for Xvfb
-|
+| `-nolisten unix` (enable non-root run)
 
 | **ELECTRON_DISABLE_SECURITY_WARNINGS**
 | Avoid printing https://github.com/electron/electron/blob/master/docs/tutorial/security.md#electron-security-warnings[electron warning]
