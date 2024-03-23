@@ -1,0 +1,60 @@
+<mxfile host="localhost" modified="2020-05-11T08:11:10.086Z" etag="L2Vw7R6ZwuYNYa1SxQTY" agent="5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.45.0 Chrome/78.0.3904.130 Electron/7.2.4 Safari/537.36" version="13.0.9" pages="2">
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page-1">
+        <mxGraphModel dx="562" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <object label="" id="0">
+                    <mxCell/>
+                </object>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="X03gjs-y7KjdQwQyzjE4-4" target="X03gjs-y7KjdQwQyzjE4-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="170" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram name="Page 2" id="WKCg2NcY1VQb7qcMgWaw">
+        &#xa;        &#xa;&#xa;
+        <mxGraphModel dx="1106" dy="830" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            &#xa;            &#xa;&#xa;
+            <root>
+                &#xa;                &#xa;&#xa;
+                <mxCell id="RwZS0F2J_Ui9ka5hwAdE-0"/>
+                &#xa;                &#xa;&#xa;
+                <mxCell id="RwZS0F2J_Ui9ka5hwAdE-1" parent="RwZS0F2J_Ui9ka5hwAdE-0"/>
+                &#xa;                &#xa;&#xa;
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="RwZS0F2J_Ui9ka5hwAdE-2">
+                    &#xa;                    &#xa;&#xa;
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="RwZS0F2J_Ui9ka5hwAdE-1">
+                        &#xa;                        &#xa;&#xa;
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                        &#xa;                        &#xa;&#xa;
+                    </mxCell>
+                    &#xa;                    &#xa;&#xa;
+                </UserObject>
+                &#xa;                &#xa;&#xa;
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="RwZS0F2J_Ui9ka5hwAdE-3">
+                    &#xa;                    &#xa;&#xa;
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="RwZS0F2J_Ui9ka5hwAdE-1">
+                        &#xa;                        &#xa;&#xa;
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                        &#xa;                        &#xa;&#xa;
+                    </mxCell>
+                    &#xa;                    &#xa;&#xa;
+                </UserObject>
+                &#xa;                &#xa;&#xa;
+            </root>
+            &#xa;            &#xa;&#xa;
+        </mxGraphModel>
+        &#xa;        &#xa;&#xa;
+    </diagram>
+</mxfile>
