@@ -28,9 +28,11 @@ apt-get install -y fonts-liberation \
 apt-get remove -y wget
 rm -rf /var/lib/apt/lists/*
 
+# Enable all users to write in the WORKDIR folder
+chmod a+w .
 EOF
 
-COPY src/* ./
+COPY --chmod=755 src/* ./
 
 ENV ELECTRON_DISABLE_SECURITY_WARNINGS "true"
 ENV DRAWIO_DISABLE_UPDATE "true"
@@ -39,7 +41,7 @@ ENV DRAWIO_DESKTOP_EXECUTABLE_PATH "/opt/drawio/drawio"
 ENV DRAWIO_DESKTOP_SOURCE_FOLDER "/opt/drawio-desktop"
 ENV DRAWIO_DESKTOP_RUNNER_COMMAND_LINE "/opt/drawio-desktop/runner.sh"
 ENV XVFB_DISPLAY ":42"
-ENV XVFB_OPTIONS ""
+ENV XVFB_OPTIONS "-nolisten unix"
 ENV ELECTRON_ENABLE_LOGGING "false"
 
 ENTRYPOINT [ "/opt/drawio-desktop/entrypoint.sh" ]

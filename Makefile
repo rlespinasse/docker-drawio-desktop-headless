@@ -19,12 +19,8 @@ build-multiarch:
 
 cleanup:
 	@rm -rf tests/output
-	@rm -rf tests/data/*.pdf
-	@rm -rf tests/data/**/*.pdf
-	@rm -rf tests/data/*.svg
-	@rm -rf tests/data/**/*.svg
-	@rm -rf tests/data/*.png
-	@rm -rf tests/data/**/*.png
+	@rm -rf tests/data/home
+	@find tests/data \( -name "*.pdf" -o -name "*.svg" -o -name "*.png" \) -delete
 
 RUN_ARGS?=
 DOCKER_OPTIONS?=

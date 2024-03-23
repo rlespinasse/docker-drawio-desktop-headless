@@ -1,8 +1,17 @@
+# node
 node_modules/
+package-lock.json
+
+# test runs
 output/
 *.pdf
 *.svg
 *.png
 !tests/expected/*.svg
 !tests/expected/*.png
-package-lock.json
+
+# non-root user runs
+home
+.cache
+.config
+core

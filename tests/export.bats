@@ -16,6 +16,10 @@
   docker_test "" 1 "export-check-thirdrun" "tests/data" -export file3.drawio
 }
 
+@test "Export as non-root" {
+  docker_test "--user $(id --user):$(id --group) --env HOME=/data/home" 0 "export-non-root" "tests/data" -x file4.drawio
+}
+
 @test "Export using unknown argument" {
   docker_test "" 0 "export-file1" "tests/data" --export file1.drawio --wrong-argument
 }
