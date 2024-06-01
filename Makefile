@@ -35,7 +35,7 @@ test-ci-setup:
 
 test-ci:
 	@mkdir -p tests/output
-	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats -r tests
+	@DOCKER_IMAGE=$(DOCKER_IMAGE) npx bats --verbose-run -r tests
 
 autoupdate-drawio-desktop:
 	@$(eval DRAWIO_DESKTOP_RELEASE := $(shell gh release list --repo jgraph/drawio-desktop | grep "Latest" | cut -f1))
