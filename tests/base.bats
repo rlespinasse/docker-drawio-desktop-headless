@@ -24,6 +24,13 @@ docker_test() {
     echo "No output test file at 'tests/expected/[uniq-]$output_file.log'"
   fi
   if [ -f "tests/output/$output_file-diff.log"]; then
-    [ "$(cat "tests/output/$output_file-diff.log")" = "" ]
+    if [ "$(cat "tests/output/$output_file-diff.log")" = "" ]; then
+      exit 0
+    else
+      if [ "$CI" = "false"]; then
+        echo "::error title=$BATS_TEST_DESCRIPTION::$(cat "tests/output/$output_file-diff.log")"
+      fi
+      exit 1
+    fi
   fi
 }
