@@ -1,6 +1,6 @@
 = Draw.io Desktop Headless docker image
 
-Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v24.4.0]
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v24.4.8]
 
 == What it does
 
@@ -44,6 +44,7 @@ Usage: drawio [options] [input file/folder]
 $ docker run -it \
           -u $(id -u):$(id -g) \ <1>
           -e HOME=/data/home -w /data \ <2>
+          -v /etc/passwd:/etc/passwd \ <3>
           -v $(pwd):/data rlespinasse/drawio-desktop-headless
 Usage: drawio [options] [input file/folder]
 ...
@@ -51,7 +52,7 @@ Usage: drawio [options] [input file/folder]
 <1> Enable non-root user
 <2> env HOME need to contains the path of the working directory (can be the same)
 +
-.If env HOME is not set properly
+.What if env HOME is not set properly?
 [%collapsible]
 ====
 [,console]
@@ -71,6 +72,26 @@ Error: Failed to get 'userData' path
     at node:electron/js2c/browser_init:2:120247
     at node:electron/js2c/browser_init:2:120456
 /opt/drawio-desktop/runner.sh: line 4:    15 Trace/breakpoint trap   (core dumped) "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox --disable-gpu
+----
+====
+<3> Needed to run drawio as non-root since v24.4.6
++
+.What if this volume is not set properly?
+[%collapsible]
+====
+[,console]
+----
+A JavaScript error occurred in the main process
+Uncaught Exception:
+SystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd returned ENOENT (no such file or directory)
+    at new SystemError (node:internal/errors:259:5)
+    at new NodeError (node:internal/errors:370:7)
+    at Object.userInfo (node:os:365:11)
+    at file:///opt/drawio/resources/app.asar/node_modules/atomically/dist/constants.js:10:29
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async node:electron/js2c/browser_init:2:125628
+    at async loadESM (node:internal/process/esm_loader:28:7)
 ----
 ====
 
