@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
