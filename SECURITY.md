@@ -15,6 +15,6 @@ Since `2024-10-27`, when a new major version is released,
 
 ## Reporting a Vulnerability
 
-In this project, you can report a Vulnerability by creating a [draft security advisory](https://github.com/rlespinasse/slugify-value/security/advisories).
+In this project, you can report a Vulnerability by creating a [draft security advisory](https://github.com/rlespinasse/docker-drawio-desktop-headless/security/advisories).
 
 If the vulnerability is confirmed, a fix will be produced and the advisory will be published.
