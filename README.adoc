@@ -1,6 +1,6 @@
 = Draw.io Desktop Headless docker image
 
-Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v24.7.17]
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v25.0.2]
 
 == What it does
 
