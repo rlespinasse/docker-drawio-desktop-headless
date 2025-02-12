@@ -12,26 +12,32 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
+
       - uses: rlespinasse/github-slug-action@v5
+
       - name: Build docker image
         run: make build
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+
       - name: Setup CI for test
         run: make test-ci-setup
         shell: bash
+
       - name: Test docker image
         run: make test-ci
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+
       - name: Test docker image // Store output logs
         uses: actions/upload-artifact@v4
         with:
           name: test-docker-image-logs
           path: "tests/output/*.log"
         if: ${{ always() }}
+
       - name: Test docker image // Store output files
         uses: actions/upload-artifact@v4
         with:
@@ -49,13 +55,25 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
+
       - uses: rlespinasse/github-slug-action@v5
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: 'arm64,arm'
+          platforms: "arm64,arm"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Build docker image
         run: make build-multiarch
         shell: bash
