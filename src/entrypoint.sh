@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${SCRIPT_DEBUG_MODE:-false}" == "true" ]]; then
+  set -x
+fi
+
 # Prepare output cleaning
 touch "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/unwanted-lines.txt"
 if [[ "${ELECTRON_DISABLE_SECURITY_WARNINGS:?}" == "true" ]]; then
@@ -20,4 +24,5 @@ export DISPLAY="${XVFB_DISPLAY:?}"
 Xvfb "${XVFB_DISPLAY:?}" ${XVFB_OPTIONS} &
 
 # Run
+
 timeout "${DRAWIO_DESKTOP_COMMAND_TIMEOUT:?}" "${DRAWIO_DESKTOP_SOURCE_FOLDER:?}/runner_wrapper.sh" "$@"

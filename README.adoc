@@ -1,6 +1,6 @@
 = Draw.io Desktop Headless docker image
 
-Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v26.0.15]
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v26.0.3]
 
 == What it does
 
@@ -127,6 +127,10 @@ for days.  A duration of 0 disables the associated timeout.
 | **DRAWIO_DISABLE_UPDATE**
 | Disable auto-update of Draw.io Desktop
 | `true`
+
+| **SCRIPT_DEBUG_MODE**
+| Enable `set -x` in internal scripts for debugging purpose
+| `false`
 
 |===
 

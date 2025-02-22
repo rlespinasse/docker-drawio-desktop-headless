@@ -1,5 +1,7 @@
+Failed to call method
 Failed to connect to the bus
 Failed to post task
 Floss manager service not available
 InitializeSandbox
+VizNullHypothesis is disabled
 extension not supported
