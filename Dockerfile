@@ -7,6 +7,10 @@ RUN <<EOF
 set -e
 echo "selected arch: ${TARGETARCH}"
 
+# fix for libc issue
+rm /var/lib/dpkg/info/libc-bin.*
+apt-get clean
+
 # Deps
 apt-get update
 apt-get install -y xvfb wget libgbm1 libasound2
@@ -26,6 +30,7 @@ apt-get install -y fonts-liberation \
 
 # Cleanup layer
 apt-get remove -y wget
+apt-get clean
 rm -rf /var/lib/apt/lists/*
 
 # Enable all users to write in the WORKDIR folder
