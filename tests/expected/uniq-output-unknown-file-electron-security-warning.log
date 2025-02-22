@@ -4,5 +4,4 @@ Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_s
 Failed to post task from operator()@net/extras/sqlite/sqlite_persistent_shared_dictionary_store.cc:263 to client_task_runner_.
 Floss manager service not available, cannot set Floss enable/disable.
 InitializeSandbox() called with multiple threads in process gpu-process.
-VizNullHypothesis is disabled (not a warning)
 dri3 extension not supported.
