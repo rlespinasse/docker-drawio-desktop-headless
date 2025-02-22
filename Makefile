@@ -25,7 +25,7 @@ cleanup:
 RUN_ARGS?=
 DOCKER_OPTIONS?=
 run:
-	@docker run -t $(DOCKER_OPTIONS) -w /data -v $(PWD):/data ${DOCKER_IMAGE} ${RUN_ARGS}
+	docker run -t $(DOCKER_OPTIONS) -w /data -v $(PWD):/data ${DOCKER_IMAGE} ${RUN_ARGS}
 
 test: cleanup build test-ci
 

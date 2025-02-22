@@ -7,12 +7,16 @@ RUN <<EOF
 set -e
 echo "selected arch: ${TARGETARCH}"
 
+# fix for libc issue
+rm /var/lib/dpkg/info/libc-bin.*
+apt-get clean
+
 # Deps
 apt-get update
 apt-get install -y xvfb wget libgbm1 libasound2
 
 # Drawio Desktop
-DRAWIO_VERSION="25.0.2"
+DRAWIO_VERSION="26.0.9"
 wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
@@ -26,6 +30,7 @@ apt-get install -y fonts-liberation \
 
 # Cleanup layer
 apt-get remove -y wget
+apt-get clean
 rm -rf /var/lib/apt/lists/*
 
 # Enable all users to write in the WORKDIR folder
@@ -43,6 +48,7 @@ ENV DRAWIO_DESKTOP_RUNNER_COMMAND_LINE "/opt/drawio-desktop/runner.sh"
 ENV XVFB_DISPLAY ":42"
 ENV XVFB_OPTIONS "-nolisten unix"
 ENV ELECTRON_ENABLE_LOGGING "false"
+ENV SCRIPT_DEBUG_MODE "false"
 
 ENTRYPOINT [ "/opt/drawio-desktop/entrypoint.sh" ]
 CMD [ "--help" ]
