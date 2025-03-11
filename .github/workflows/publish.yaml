@@ -1,7 +1,12 @@
+---
 name: Publish to Registry
+
 on:
   release:
     types: [published]
+
+permissions: read-all
+
 jobs:
   update:
     runs-on: ubuntu-latest

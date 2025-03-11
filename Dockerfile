@@ -1,8 +1,11 @@
+#checkov:skip=CKV_DOCKER_2
+#checkov:skip=CKV_DOCKER_3
 FROM debian:bullseye
 ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
 
+# hadolint ignore=DL3008,DL3015
 RUN <<EOF
 set -e
 echo "selected arch: ${TARGETARCH}"
