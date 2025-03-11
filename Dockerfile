@@ -16,7 +16,7 @@ apt-get clean
 
 # Deps
 apt-get update
-apt-get install -y xvfb wget libgbm1 libasound2 --no-install-recommends
+apt-get install --no-install-recommends -y xvfb wget libgbm1 libasound2
 
 # Drawio Desktop
 DRAWIO_VERSION="26.0.16"
@@ -25,12 +25,12 @@ apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.de
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 
 # Additional Fonts
-apt-get install -y fonts-liberation \
+apt-get install --no-install-recommends -y \
+  fonts-liberation \
   fonts-arphic-ukai fonts-arphic-uming \
   fonts-noto fonts-noto-cjk \
   fonts-ipafont-mincho fonts-ipafont-gothic \
-  fonts-unfonts-core \
-  --no-install-recommends
+  fonts-unfonts-core
 
 # Cleanup layer
 apt-get remove -y wget
