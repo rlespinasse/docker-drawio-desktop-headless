@@ -5,7 +5,7 @@ ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
 
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008,DL3015
 RUN <<EOF
 set -e
 echo "selected arch: ${TARGETARCH}"
@@ -16,7 +16,7 @@ apt-get clean
 
 # Deps
 apt-get update
-apt-get install --no-install-recommends -y xvfb wget libgbm1 libasound2
+apt-get install -y xvfb wget libgbm1 libasound2
 
 # Drawio Desktop
 DRAWIO_VERSION="26.0.16"
@@ -25,8 +25,7 @@ apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.de
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 
 # Additional Fonts
-apt-get install --no-install-recommends -y \
-  fonts-liberation \
+apt-get install -y fonts-liberation \
   fonts-arphic-ukai fonts-arphic-uming \
   fonts-noto fonts-noto-cjk \
   fonts-ipafont-mincho fonts-ipafont-gothic \
