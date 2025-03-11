@@ -1,24 +1,32 @@
+---
 name: Autoupdate Drawio Desktop
+
 on:
   schedule:
     - cron: "0 0 * * 1" # Every Monday at midnight (UTC)
   workflow_dispatch:
+
 permissions:
   contents: write
   pull-requests: write
+
 concurrency:
   group: autoupdate-drawio-desktop
   cancel-in-progress: true
+
 jobs:
   autoupdate:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - run: make autoupdate-drawio-desktop
         id: autoupdate-drawio-desktop
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         shell: bash
+
       - uses: peter-evans/create-pull-request@v7
         with:
           title: "feat: update to drawio-desktop ${{ steps.autoupdate-drawio-desktop.outputs.release_version }}"

@@ -1,15 +1,22 @@
+---
 name: Build And Release
+
 on:
   pull_request:
   push:
     branches:
       - v1.x
+
+permissions: read-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     concurrency:
       group: build-${{ github.ref }}-${{ github.event_name }}
       cancel-in-progress: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -50,9 +57,11 @@ jobs:
 
   build-multiarch:
     runs-on: ubuntu-latest
+
     concurrency:
       group: build-multiarch-${{ github.ref }}-${{ github.event_name }}
       cancel-in-progress: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -82,13 +91,23 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      id-token: write
+      packages: write
+
     needs:
       - build
       - build-multiarch
+
     concurrency:
       group: release-${{ github.ref }}-${{ github.event_name }}
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Release this docker image
         uses: rlespinasse/release-that@v1
         with:
