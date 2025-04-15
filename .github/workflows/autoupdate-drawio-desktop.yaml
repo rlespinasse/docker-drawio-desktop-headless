@@ -21,7 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: make autoupdate-drawio-desktop
+      - uses: taiki-e/install-action@just
+
+      - run: just autoupdate-drawio-desktop
         id: autoupdate-drawio-desktop
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

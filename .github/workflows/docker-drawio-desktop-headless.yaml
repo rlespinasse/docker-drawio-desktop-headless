@@ -22,18 +22,20 @@ jobs:
 
       - uses: rlespinasse/github-slug-action@v5
 
+      - uses: taiki-e/install-action@just
+
       - name: Build docker image
-        run: make build
+        run: just build
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
 
       - name: Setup CI for test
-        run: make test-ci-setup
+        run: just test-ci-setup
         shell: bash
 
       - name: Test docker image
-        run: make test-ci
+        run: just test-ci
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
@@ -83,8 +85,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - uses: taiki-e/install-action@just
+
       - name: Build docker image
-        run: make build-multiarch
+        run: just build-multiarch
         shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
