@@ -1,3 +1,4 @@
+dri3 extension not supported.
 Error: input file/directory not found
 Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
 Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
@@ -6,4 +7,3 @@ Failed to post task from operator()@net/extras/sqlite/sqlite_persistent_shared_d
 Floss manager service not available, cannot set Floss enable/disable.
 InitializeSandbox() called with multiple threads in process gpu-process.
 VizNullHypothesis is disabled (not a warning)
-dri3 extension not supported.
