@@ -65,3 +65,22 @@ autoupdate-drawio-desktop:
   if [ -n "${GITHUB_OUTPUT}" ]; then
     echo "release_version=$DRAWIO_DESKTOP_RELEASE" >> "${GITHUB_OUTPUT}"
   fi
+  echo "Updated to Draw.io Desktop version $DRAWIO_DESKTOP_RELEASE"
+
+patch-unwanted-security-warnings:
+  #!/usr/bin/env bash
+  cat tests/output/output-electron-security-warning-comp.log | \
+    LC_COLLATE=C sort -u > tests/expected/uniq-output-electron-security-warning.log
+  cat tests/output/output-unknown-file-electron-security-warning-comp.log | \
+    LC_COLLATE=C sort -u > tests/expected/uniq-output-unknown-file-electron-security-warning.log
+
+  echo
+  {
+    awk '{print $1, $2, $3}' tests/expected/uniq-output-electron-security-warning.log;
+    awk '{print $1, $2, $3}' tests/expected/uniq-output-unknown-file-electron-security-warning.log;
+  } | \
+  grep -v "file1.drawio" | \
+  grep -v "input file/directory" | \
+  LC_COLLATE=C sort -u > src/unwanted-security-warnings.txt
+  echo "Unwanted Security Warnings have been updated."
+  echo "Please check the files before committing."
