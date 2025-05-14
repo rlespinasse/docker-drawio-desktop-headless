@@ -70,9 +70,9 @@ autoupdate-drawio-desktop:
 patch-unwanted-security-warnings:
   #!/usr/bin/env bash
   cat tests/output/output-electron-security-warning-comp.log | \
-    sort -u > tests/expected/uniq-output-electron-security-warning.log
+    LC_COLLATE=C sort -u > tests/expected/uniq-output-electron-security-warning.log
   cat tests/output/output-unknown-file-electron-security-warning-comp.log | \
-    sort -u > tests/expected/uniq-output-unknown-file-electron-security-warning.log
+    LC_COLLATE=C sort -u > tests/expected/uniq-output-unknown-file-electron-security-warning.log
 
   echo
   {
@@ -81,6 +81,6 @@ patch-unwanted-security-warnings:
   } | \
   grep -v "file1.drawio" | \
   grep -v "input file/directory" | \
-  sort -u > src/unwanted-security-warnings.txt
+  LC_COLLATE=C sort -u > src/unwanted-security-warnings.txt
   echo "Unwanted Security Warnings have been updated."
   echo "Please check the files before committing."
