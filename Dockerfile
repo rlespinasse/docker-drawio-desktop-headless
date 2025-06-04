@@ -25,10 +25,14 @@ apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.de
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 
 # Additional Fonts
-apt-get install -y fonts-liberation \
-  fonts-arphic-ukai fonts-arphic-uming \
-  fonts-noto fonts-noto-cjk \
-  fonts-ipafont-mincho fonts-ipafont-gothic \
+apt-get install -y \
+  fonts-liberation \
+  fonts-arphic-ukai \
+  fonts-arphic-uming \
+  fonts-noto \
+  fonts-noto-cjk \
+  fonts-ipafont-mincho \
+  fonts-ipafont-gothic \
   fonts-unfonts-core
 
 # Cleanup layer
