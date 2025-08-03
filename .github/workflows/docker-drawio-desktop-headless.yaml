@@ -73,9 +73,11 @@ jobs:
       - name: Set patch diff output // if 'Test docker image' failed
         id: patch_diff
         run: |
-          echo "diff<<EOF" >> $GITHUB_OUTPUT
-          cat patch.diff >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo "diff<<EOF"
+            cat patch.diff
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
         if: failure() && steps.test-ci.outcome == 'failure'
 
       - name: Comment patch diff on PR // if 'Test docker image' failed
