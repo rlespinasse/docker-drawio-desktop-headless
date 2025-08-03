@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+# shellcheck source=/dev/null
 . tests/base.bats
 
 @test "Export a drawio file as pdf" {
