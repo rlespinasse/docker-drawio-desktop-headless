@@ -7,7 +7,9 @@ on:
     branches:
       - v1.x
 
-permissions: read-all
+permissions:
+  contents: write # Required to commit and push with git-auto-commit-action
+  pull-requests: write # Required to comment on PRs with peter-evans/create-or-update-comment
 
 jobs:
   build:
@@ -35,6 +37,7 @@ jobs:
         shell: bash
 
       - name: Test docker image
+        id: test-ci
         run: just test-ci
         shell: bash
         env:
@@ -45,7 +48,7 @@ jobs:
         with:
           name: test-docker-image-logs
           path: "tests/output/*.log"
-        if: ${{ always() }}
+        if: always()
 
       - name: Test docker image // Store output files
         uses: actions/upload-artifact@v4
@@ -55,7 +58,52 @@ jobs:
             tests/data
             !tests/data/*.drawio
             !tests/data/*/*.drawio
-        if: ${{ always() }}
+        if: always()
+
+      - name: Patch // if 'Test docker image' failed
+        run: just patch
+        shell: bash
+        if: failure() && steps.test-ci.outcome == 'failure'
+
+      - name: Generate patch diff // if 'Test docker image' failed
+        run: git diff HEAD^ HEAD > patch.diff
+        shell: bash
+        if: failure() && steps.test-ci.outcome == 'failure'
+
+      - name: Set patch diff output // if 'Test docker image' failed
+        id: patch_diff
+        run: |
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          cat patch.diff >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        if: failure() && steps.test-ci.outcome == 'failure'
+
+      - name: Comment patch diff on PR // if 'Test docker image' failed
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            :warning: A patch have been applied following the tests failure.
+
+            <details>
+            <summary>Display patch content</summary>
+
+            ```diff
+            ${{ steps.patch_diff.outputs.diff }}
+            ```
+            </details>
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+        if: failure() && steps.test-ci.outcome == 'failure' && github.event_name == 'pull_request'
+
+      - name: Commit and push patch if needed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "fix: apply automated patch after tests failure"
+          branch: ${{ github.ref_name }}
+        if: failure() && steps.test-ci.outcome == 'failure'
 
   build-multiarch:
     runs-on: ubuntu-latest
