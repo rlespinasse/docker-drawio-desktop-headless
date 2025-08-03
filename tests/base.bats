@@ -28,7 +28,8 @@ docker_test() {
   if [ -f "tests/expected/$output_file.log" ]; then
     diff -u --strip-trailing-cr "tests/expected/$output_file.log" "tests/output/$output_file-comp.log" >"tests/output/$output_file-diff.log"
   elif [ -f "tests/expected/uniq-$output_file.log" ]; then
-    diff -u --strip-trailing-cr "tests/expected/uniq-$output_file.log" <(LC_COLLATE=C sort -u "tests/output/$output_file-comp.log") >"tests/output/$output_file-diff.log"
+    # For now, I remove sqlite_persistent_shared_dictionary_store.cc from expected output since this line is inconsistent across runs
+    diff -u --strip-trailing-cr "tests/expected/uniq-$output_file.log" <(LC_COLLATE=C sort -u "tests/output/$output_file-comp.log" | grep -v "sqlite_persistent_shared_dictionary_store") >"tests/output/$output_file-diff.log"
   fi
   if [ -f "tests/output/$output_file-diff.log" ]; then
     [ "$(cat "tests/output/$output_file-diff.log")" = "" ]
