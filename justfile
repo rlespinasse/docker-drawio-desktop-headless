@@ -67,20 +67,39 @@ autoupdate-drawio-desktop:
   fi
   echo "Updated to Draw.io Desktop version $DRAWIO_DESKTOP_RELEASE"
 
+[group('Maintenance mode')]
+patch: patch-unwanted-security-warnings patch-tests
+
+[private]
 patch-unwanted-security-warnings:
   #!/usr/bin/env bash
   cat tests/output/output-electron-security-warning-comp.log | \
+    # For now, I remove sqlite_persistent_shared_dictionary_store logs from expected output since this line is inconsistent across runs
+    grep -v "sqlite_persistent_shared_dictionary_store" | \
     LC_COLLATE=C sort -u > tests/expected/uniq-output-electron-security-warning.log
   cat tests/output/output-unknown-file-electron-security-warning-comp.log | \
+    # For now, I remove sqlite_persistent_shared_dictionary_store logs from expected output since this line is inconsistent across runs
+    grep -v "sqlite_persistent_shared_dictionary_store" | \
     LC_COLLATE=C sort -u > tests/expected/uniq-output-unknown-file-electron-security-warning.log
 
   echo
   {
-    awk '{print $1, $2, $3}' tests/expected/uniq-output-electron-security-warning.log;
-    awk '{print $1, $2, $3}' tests/expected/uniq-output-unknown-file-electron-security-warning.log;
+    awk '{print $1, $2, $3}' tests/output/output-electron-security-warning-comp.log;
+    awk '{print $1, $2, $3}' tests/output/output-unknown-file-electron-security-warning-comp.log;
   } | \
   grep -v "file1.drawio" | \
   grep -v "input file/directory" | \
   LC_COLLATE=C sort -u > src/unwanted-security-warnings.txt
-  echo "Unwanted Security Warnings have been updated."
-  echo "Please check the files before committing."
+  git diff --exit-code src/unwanted-security-warnings.txt || \
+    echo "Unwanted Security Warnings have been updated. Please check the changes before committing."
+  git diff --exit-code tests/expected/uniq-* || \
+    echo "Test files have been updated. Please check the changes before committing."
+
+[private]
+patch-tests:
+  #!/usr/bin/env bash
+  mv tests/data/issue-20/frame-bug-dark.svg tests/expected/issue-20-frame-bug-dark.svg
+  mv tests/data/issue-20/frame-bug-light.svg tests/expected/issue-20-frame-bug-light.svg
+  mv tests/data/fonts/chinese.png tests/expected/fonts-chinese.png
+  git diff --exit-code tests/expected || \
+    echo "Test files have been updated. Please check the changes before committing."
