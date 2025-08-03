@@ -98,7 +98,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
-        if: failure() && steps.test-ci.outcome == 'failure' && github.event_name == 'pull_request'
+        if: failure() && steps.test-ci.outcome == 'failure' && github.event_name == 'pull_request' && steps.patch_diff.outputs.diff != ''
 
       - name: Commit and push patch if needed
         uses: stefanzweifel/git-auto-commit-action@v5
