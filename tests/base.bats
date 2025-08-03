@@ -12,13 +12,17 @@ docker_test() {
   shift
 
   # Run command
-  echo docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@" >>tests/output/$output_file-command.log
-  run docker container run -t $docker_opts -w /data -v $(pwd)/${data_folder:-}:/data ${DOCKER_IMAGE} "$@"
+  # shellcheck disable=SC2086
+  echo docker container run -t $docker_opts -w /data -v "$(pwd)/${data_folder:-}":/data ${DOCKER_IMAGE} "$@" >>tests/output/$output_file-command.log
+  # shellcheck disable=SC2086
+  run docker container run -t $docker_opts -w /data -v "$(pwd)/${data_folder:-}":/data ${DOCKER_IMAGE} "$@"
 
   # Remove timed logging tags on electron logs by default.
+  # shellcheck disable=SC2154
   echo "$output" | tee "tests/output/$output_file.log" | sed 's#\[.*:.*/.*\..*:.*:.*\(.*\)\] ##' >"tests/output/$output_file-comp.log"
 
   # Test status
+  # shellcheck disable=SC2086
   [ "$status" -eq $status ]
   # Test output
   if [ -f "tests/expected/$output_file.log" ]; then
