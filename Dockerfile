@@ -1,6 +1,6 @@
 #checkov:skip=CKV_DOCKER_2
 #checkov:skip=CKV_DOCKER_3
-FROM debian:bullseye
+FROM debian:trixie
 ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
