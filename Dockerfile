@@ -1,6 +1,6 @@
 #checkov:skip=CKV_DOCKER_2
 #checkov:skip=CKV_DOCKER_3
-FROM debian:bullseye
+FROM debian:trixie
 ARG TARGETARCH
 
 WORKDIR "/opt/drawio-desktop"
@@ -19,7 +19,7 @@ apt-get update
 apt-get install -y xvfb wget libgbm1 libasound2
 
 # Drawio Desktop
-DRAWIO_VERSION="28.0.6"
+DRAWIO_VERSION="28.2.5"
 wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
