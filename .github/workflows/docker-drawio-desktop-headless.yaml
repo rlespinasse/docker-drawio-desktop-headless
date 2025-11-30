@@ -28,8 +28,8 @@ jobs:
       - name: Checkout Source Branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || '' }}
           fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || '' }}
           token: ${{ secrets.GH_TOKEN }}
 
       - uses: rlespinasse/github-slug-action@v5
