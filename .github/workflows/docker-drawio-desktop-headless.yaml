@@ -25,7 +25,7 @@ jobs:
           # 1. If it's a Pull Request, checkout the "head" (source) branch name.
           # 2. If it's a Push (or anything else), pass an empty string 
           #    (which tells the action to use the default behavior/SHA).
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || '' }}
+          ref: ${{ env.GITHUB_HEAD_REF || env.GITHUB_REF }}
 
       - uses: rlespinasse/github-slug-action@v5
 
