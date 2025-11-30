@@ -15,3 +15,7 @@ home
 .cache
 .config
 core
+
+# repository
+patch.diff
+package.json
