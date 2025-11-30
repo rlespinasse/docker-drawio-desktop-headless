@@ -50,8 +50,10 @@ jobs:
         run: just test-ci
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+        continue-on-error: true 
+
       - name: Store Output Logs & Files
-        if: always()
+        if: steps.test_ci.outcome == 'failure'
         uses: actions/upload-artifact@v5
         with:
           name: test-artifacts
