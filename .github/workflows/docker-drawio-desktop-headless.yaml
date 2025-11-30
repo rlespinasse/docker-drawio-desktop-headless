@@ -15,7 +15,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: write # For stefanzweifel/git-auto-commit-action
       pull-requests: write # For peter-evans/create-or-update-comment
