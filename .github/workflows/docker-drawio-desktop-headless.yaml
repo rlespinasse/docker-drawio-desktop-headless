@@ -8,115 +8,104 @@ on:
       - v1.x
 
 permissions:
-  contents: write # Required to commit and push with git-auto-commit-action
-  pull-requests: write # Required to comment on PRs with peter-evans/create-or-update-comment
+  contents: read # Default to 'read' for security
+  pull-requests: read
+  id-token: write # Added for potential OIDC in release job (packages/registry login)
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # Permissions override for steps that need to write (commit, comment)
+    permissions:
+      contents: write # For stefanzweifel/git-auto-commit-action
+      pull-requests: write # For peter-evans/create-or-update-comment
 
     concurrency:
-      group: build-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
       cancel-in-progress: true
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout Source Branch
+        uses: actions/checkout@v6
         with:
-          # 1. If it's a Pull Request, checkout the "head" (source) branch name.
-          # 2. If it's a Push (or anything else), pass an empty string 
-          #    (which tells the action to use the default behavior/SHA).
-          ref: ${{ env.GITHUB_HEAD_REF || env.GITHUB_REF }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || '' }}
 
       - uses: rlespinasse/github-slug-action@v5
-
-      - uses: taiki-e/install-action@just
-
-      - name: Build docker image
+      
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+          
+      - name: Build Docker Image
         run: just build
-        shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
 
       - name: Setup CI for test
         run: just test-ci-setup
-        shell: bash
 
-      - name: Test docker image
-        id: test-ci
+      - name: Test Docker Image
+        id: test_ci
         run: just test-ci
-        shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
-
-      - name: Test docker image // Store output logs
-        uses: actions/upload-artifact@v5
-        with:
-          name: test-docker-image-logs
-          path: "tests/output/*.log"
+      - name: Store Output Logs & Files
         if: always()
-
-      - name: Test docker image // Store output files
         uses: actions/upload-artifact@v5
         with:
-          name: test-docker-image-files
+          name: test-artifacts
           path: |
+            tests/output/*.log
             tests/data
             !tests/data/*.drawio
             !tests/data/*/*.drawio
-        if: always()
 
-      - name: Patch // if 'Test docker image' failed
+      - name: Patch Code (if Test Failed)
+        if: steps.test_ci.outcome == 'failure'
         run: just patch
-        shell: bash
-        if: failure() && steps.test-ci.outcome == 'failure'
 
-      - name: Generate patch diff // if 'Test docker image' failed
-        run: git diff HEAD^ HEAD > patch.diff
-        shell: bash
-        if: failure() && steps.test-ci.outcome == 'failure'
-
-      - name: Set patch diff output // if 'Test docker image' failed
-        id: patch_diff
+      - name: Generate Patch Diff
+        if: steps.test_ci.outcome == 'failure'
+        id: patch_diff_step
         run: |
+          git diff HEAD^ HEAD > patch.diff
+          # Set output to be used by the comment action
           {
             echo "diff<<EOF"
             cat patch.diff
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
-        if: failure() && steps.test-ci.outcome == 'failure'
-
-      - name: Comment patch diff on PR // if 'Test docker image' failed
+        
+      - name: Comment Patch Diff on PR
         uses: peter-evans/create-or-update-comment@v4
+        if: steps.test_ci.outcome == 'failure' && github.event_name == 'pull_request' && steps.patch_diff_step.outputs.diff != ''
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            :warning: A patch have been applied following the tests failure.
+            :warning: A patch has been applied following the tests failure.
 
             <details>
             <summary>Display patch content</summary>
 
             ```diff
-            ${{ steps.patch_diff.outputs.diff }}
+            ${{ steps.patch_diff_step.outputs.diff }}
             ```
             </details>
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-        if: failure() && steps.test-ci.outcome == 'failure' && github.event_name == 'pull_request' && steps.patch_diff.outputs.diff != ''
+        continue-on-error: true 
 
-      - name: Commit and push patch if needed
+      - name: Commit and Push Patch (if needed)
         uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.test_ci.outcome == 'failure'
         with:
           commit_message: "fix: apply automated patch after tests failure"
-          branch: ${{ github.ref_name }}
-        if: failure() && steps.test-ci.outcome == 'failure'
+          branch: ${{ github.ref }} 
 
   build-multiarch:
     runs-on: ubuntu-latest
 
     concurrency:
-      group: build-multiarch-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-multiarch-${{ github.event_name }}
       cancel-in-progress: true
 
     steps:
@@ -140,11 +129,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - uses: taiki-e/install-action@just
-
-      - name: Build docker image
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+          
+      - name: Build Docker Image
         run: just build-multiarch
-        shell: bash
         env:
           DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
 
@@ -152,22 +142,25 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      issues: write
-      id-token: write
-      packages: write
-
+      contents: write # Required for releases
+      id-token: write # Required for OIDC/package registry login
+      packages: write # Required to push packages/images to GHCR
+      issues: write # If release-that creates issues
+      
     needs:
       - build
       - build-multiarch
-
+      
+    # Concurrency is good here, but cancellation should be disabled so a push 
+    # doesn't cancel a running release.
     concurrency:
-      group: release-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-release
+      cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Release this docker image
         uses: rlespinasse/release-that@v1
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
