@@ -55,7 +55,7 @@ jobs:
 
       - name: Store Output Logs & Files
         if: steps.test_ci.outcome == 'failure'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-artifacts
           path: |
