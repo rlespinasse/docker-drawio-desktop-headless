@@ -104,5 +104,6 @@ patch-tests:
   mv tests/data/issue-20/frame-bug-dark.svg tests/expected/issue-20-frame-bug-dark.svg
   mv tests/data/issue-20/frame-bug-light.svg tests/expected/issue-20-frame-bug-light.svg
   mv tests/data/fonts/chinese.png tests/expected/fonts-chinese.png
+  mv tests/data/issue-84/helvetica.png tests/expected/issue-84-helvetica.png
   git diff --exit-code tests/expected || \
     echo "Test files have been updated. Please check the changes before committing."
