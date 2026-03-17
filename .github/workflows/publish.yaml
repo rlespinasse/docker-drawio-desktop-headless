@@ -8,12 +8,17 @@ on:
 permissions: read-all
 
 jobs:
-  update:
+  publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - font_variant: full
+            tags: "latest,${{ github.event.release.tag_name }}"
+          - font_variant: minimal
+            tags: "minimal,minimal-${{ github.event.release.tag_name }}"
     steps:
       - uses: actions/checkout@v6
-
-      - uses: rlespinasse/github-slug-action@v5
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -23,11 +28,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Publish to Registry
+      - name: Publish to Registry (${{ matrix.font_variant }})
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: rlespinasse/drawio-desktop-headless
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "latest,${{ env.GITHUB_REF_SLUG }}"
+          tags: ${{ matrix.tags }}
           platforms: linux/amd64,linux/arm64
+          buildargs: FONT_VARIANT=${{ matrix.font_variant }}

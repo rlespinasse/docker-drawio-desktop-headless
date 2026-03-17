@@ -16,12 +16,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        font_variant: [full, minimal]
+
     permissions:
       contents: write # For stefanzweifel/git-auto-commit-action
       pull-requests: write # For peter-evans/create-or-update-comment
 
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.font_variant }}-${{ github.event_name }}
       cancel-in-progress: true
 
     steps:
@@ -38,26 +42,27 @@ jobs:
         with:
           tool: just
 
-      - name: Build Docker Image
+      - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build
         env:
-          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}-${{ matrix.font_variant }}
+          FONT_VARIANT: ${{ matrix.font_variant }}
 
       - name: Setup CI for test
         run: just test-ci-setup
 
-      - name: Test Docker Image
+      - name: Test Docker Image (${{ matrix.font_variant }})
         id: test_ci
         run: just test-ci
         env:
-          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}-${{ matrix.font_variant }}
         continue-on-error: true
 
       - name: Store Output Logs & Files
         if: steps.test_ci.outcome == 'failure'
         uses: actions/upload-artifact@v7
         with:
-          name: test-artifacts
+          name: test-artifacts-${{ matrix.font_variant }}
           path: |
             tests/output/*.log
             tests/data
@@ -65,11 +70,11 @@ jobs:
             !tests/data/*/*.drawio
 
       - name: Patch Code (if Test Failed)
-        if: steps.test_ci.outcome == 'failure'
+        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full'
         run: just patch
 
       - name: Generate Patch Diff
-        if: steps.test_ci.outcome == 'failure'
+        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full'
         id: patch_diff_step
         run: |
           git diff HEAD^ HEAD > patch.diff
@@ -82,7 +87,7 @@ jobs:
 
       - name: Comment Patch Diff on PR
         uses: peter-evans/create-or-update-comment@v5
-        if: steps.test_ci.outcome == 'failure' && github.event_name == 'pull_request' && steps.patch_diff_step.outputs.diff != ''
+        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full' && github.event_name == 'pull_request' && steps.patch_diff_step.outputs.diff != ''
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
@@ -99,7 +104,7 @@ jobs:
 
       - name: Commit and Push Patch (if needed)
         uses: stefanzweifel/git-auto-commit-action@v7
-        if: steps.test_ci.outcome == 'failure'
+        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full'
         with:
           commit_message: "fix: apply automated patch after tests failure"
           branch: ${{ github.head_ref }}
@@ -107,8 +112,12 @@ jobs:
   build-multiarch:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        font_variant: [full, minimal]
+
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-multiarch-${{ github.event_name }}
+      group: ${{ github.workflow }}-${{ github.ref }}-multiarch-${{ matrix.font_variant }}-${{ github.event_name }}
       cancel-in-progress: true
 
     steps:
@@ -128,18 +137,19 @@ jobs:
         uses: actions/cache@v5
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ matrix.font_variant }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-${{ matrix.font_variant }}-
 
       - uses: taiki-e/install-action@v2
         with:
           tool: just
 
-      - name: Build Docker Image
+      - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build-multiarch
         env:
-          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
+          DOCKER_IMAGE: ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}-${{ matrix.font_variant }}
+          FONT_VARIANT: ${{ matrix.font_variant }}
 
   release:
     runs-on: ubuntu-latest

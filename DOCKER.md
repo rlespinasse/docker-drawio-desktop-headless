@@ -11,6 +11,11 @@ And this prevent us to use it for automation in non-GUI environment such as CI t
 
 This [docker image][1] enable us to run the command-line client in a headless mode.
 
+## Image Variants
+
+- **`latest`** (full) — Includes Western, CJK, and broad Unicode fonts
+- **`minimal`** — Western fonts only, significantly smaller image
+
 ## Running
 
 ```bash

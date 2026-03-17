@@ -8,23 +8,26 @@ arch := if arch() == "aarch64" { "arm64" } else { "amd64" }
 # Default docker image name
 docker_image := env_var_or_default("DOCKER_IMAGE", "rlespinasse/drawio-desktop-headless:local")
 
+# Font variant: "full" (default) or "minimal"
+font_variant := env_var_or_default("FONT_VARIANT", "full")
+
 default:
   just --choose
 
 # Build the Docker image for current architecture
 [group('Development mode')]
 build:
-  docker build --build-arg="TARGETARCH={{arch}}" -t {{docker_image}} .
+  docker build --build-arg="TARGETARCH={{arch}}" --build-arg="FONT_VARIANT={{font_variant}}" -t {{docker_image}} .
 
 # Build the Docker image without cache
 [group('Development mode')]
 build-no-cache:
-  docker build --build-arg="TARGETARCH={{arch}}" --no-cache --progress plain -t {{docker_image}} .
+  docker build --build-arg="TARGETARCH={{arch}}" --build-arg="FONT_VARIANT={{font_variant}}" --no-cache --progress plain -t {{docker_image}} .
 
 # Build for multiple architectures
 [group('Development mode')]
 build-multiarch:
-  docker buildx build --platform linux/amd64,linux/arm64 -t {{docker_image}} .
+  docker buildx build --platform linux/amd64,linux/arm64 --build-arg="FONT_VARIANT={{font_variant}}" -t {{docker_image}} .
 
 # Clean up test artifacts
 [group('Development mode')]
