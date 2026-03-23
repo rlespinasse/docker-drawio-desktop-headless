@@ -1,15 +1,20 @@
-# Draw.io Desktop Headless docker image
+# Draw.io Desktop Headless Docker Image
 
 [Dockerized headless][1] version of [Draw.io Desktop][2]
 
-## What is does
+## Overview
 
-Draw.io Desktop expose a command-line client to allow us to create, check or export diagrams.
+Draw.io Desktop exposes a command-line client to allow us to create, check, or export diagrams.
 
-Since Draw.io Desktop is an GUI application, we need an GUI environment to run it.
-And this prevent us to use it for automation in non-GUI environment such as CI tools.
+Since Draw.io Desktop is a GUI application, we need a GUI environment to run it.
+And this prevents us from using it for automation in a non-GUI environment, such as CI tools.
 
-This [docker image][1] enable us to run the command-line client in a headless mode.
+This [Docker Image][1] enables us to run the command-line client in a headless mode.
+
+## Image Variants
+
+- **`latest`** (full) — Includes Western, CJK, and broad Unicode fonts
+- **`minimal`** — Western fonts only, significantly smaller image
 
 ## Running
 
@@ -17,7 +22,7 @@ This [docker image][1] enable us to run the command-line client in a headless mo
 docker run -it -v $(pwd):/data rlespinasse/drawio-desktop-headless
 ```
 
-Read about [docker image configuration][3]
+Read about [Docker Image Configuration][3]
 
 ## License
 
