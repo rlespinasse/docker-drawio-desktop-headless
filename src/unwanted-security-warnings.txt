@@ -1,5 +1,3 @@
 Failed to call
 Failed to connect
 Floss manager service
-InitializeSandbox() called with
-dri3 extension not
