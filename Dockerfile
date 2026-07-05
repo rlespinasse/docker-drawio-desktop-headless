@@ -2,6 +2,7 @@
 #checkov:skip=CKV_DOCKER_3
 FROM debian:trixie
 ARG TARGETARCH
+ARG FONT_VARIANT="full"
 
 WORKDIR "/opt/drawio-desktop"
 
@@ -9,6 +10,7 @@ WORKDIR "/opt/drawio-desktop"
 RUN <<EOF
 set -e
 echo "selected arch: ${TARGETARCH}"
+echo "font variant: ${FONT_VARIANT}"
 
 # fix for libc issue
 rm /var/lib/dpkg/info/libc-bin.*
@@ -19,22 +21,43 @@ apt-get update
 apt-get install -y xvfb wget libgbm1 libasound2
 
 # Drawio Desktop
-DRAWIO_VERSION="29.6.1"
+DRAWIO_VERSION="30.0.1"
 wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 
-# Additional Fonts
-apt-get install -y fonts-liberation \
-  fonts-arphic-ukai fonts-arphic-uming \
-  fonts-noto fonts-noto-cjk \
-  fonts-ipafont-mincho fonts-ipafont-gothic \
-  fonts-unfonts-core
+# Fonts
+# - minimal: Western fonts only (Liberation Sans/Serif/Mono + DejaVu fallback)
+# - full: Western + CJK + broad Unicode coverage (default)
+case "${FONT_VARIANT}" in
+  minimal)
+    apt-get install -y --no-install-recommends \
+      fonts-liberation \
+      fonts-dejavu-core
+    ;;
+  full)
+    apt-get install -y --no-install-recommends \
+      fonts-liberation \
+      fonts-dejavu-core \
+      fonts-noto-core \
+      fonts-noto-cjk \
+      fonts-arphic-ukai fonts-arphic-uming \
+      fonts-ipafont-mincho fonts-ipafont-gothic \
+      fonts-unfonts-core
+    ;;
+  *)
+    echo "Unknown FONT_VARIANT: ${FONT_VARIANT}. Use 'minimal' or 'full'."
+    exit 1
+    ;;
+esac
 
 # Cleanup layer
 apt-get remove -y wget
 apt-get clean
 rm -rf /var/lib/apt/lists/*
+
+# Custom fonts volume mount point
+mkdir -p /usr/local/share/fonts/custom
 
 # Enable all users to write in the WORKDIR folder
 chmod a+w .

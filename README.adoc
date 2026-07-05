@@ -1,6 +1,6 @@
 = Draw.io Desktop Headless docker image
 
-Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v29.6.1]
+Dockerized headless version of https://github.com/jgraph/drawio-desktop[Draw.io Desktop v30.0.1]
 
 == What it does
 
@@ -16,21 +16,12 @@ Other minor additions are available
 * Add timeout capability since the application can hang sometimes (due to user action needed in GUI mode)
 * Clear the output log from Electron Security Warning
 * Disable auto-update functionality to avoid unnecessary log
-* Multiple fonts from
-** https://packages.debian.org/bullseye/fonts-liberation[fonts-liberation]
-** https://packages.debian.org/bullseye/fonts-arphic-ukai[fonts-arphic-ukai]
-** https://packages.debian.org/bullseye/fonts-arphic-uming[fonts-arphic-uming]
-** https://packages.debian.org/bullseye/fonts-noto[fonts-noto]
-** https://packages.debian.org/bullseye/fonts-noto-cjk[fonts-noto-cjk]
-** https://packages.debian.org/bullseye/fonts-ipafont-mincho[fonts-ipafont-mincho]
-** https://packages.debian.org/bullseye/fonts-ipafont-gothic[fonts-ipafont-gothic]
-** https://packages.debian.org/bullseye/fonts-unfonts-core[fonts-unfonts-core]
+* Font support via two image variants (see <<Image Variants>>)
 
-NOTE: Want a new font package, modify the `Dockerfile` to install the missing package.
+== Getting Started
 
-== Running
+Run the docker image with your current directory mounted as `/data`:
 
-.Default run
 [source,console]
 ----
 $ docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless
@@ -38,7 +29,18 @@ Usage: drawio [options] [input file/folder]
 ...
 ----
 
-.Run using non-root user
+Export a Draw.io file to PNG:
+
+[source,console]
+----
+$ docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless \
+      -x -f png my-diagram.drawio
+----
+
+== How-to Guides
+
+=== Run as non-root user
+
 [source,console]
 ----
 $ docker run -it \
@@ -51,7 +53,8 @@ Usage: drawio [options] [input file/folder]
 ----
 <1> Enable non-root user
 <2> env HOME need to contains the path of the working directory (can be the same)
-+
+<3> Needed to run drawio as non-root since v24.4.6
+
 .What if env HOME is not set properly?
 [%collapsible]
 ====
@@ -74,8 +77,7 @@ Error: Failed to get 'userData' path
 /opt/drawio-desktop/runner.sh: line 4:    15 Trace/breakpoint trap   (core dumped) "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox --disable-gpu
 ----
 ====
-<3> Needed to run drawio as non-root since v24.4.6
-+
+
 .What if this volume is not set properly?
 [%collapsible]
 ====
@@ -94,6 +96,80 @@ SystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd return
     at async loadESM (node:internal/process/esm_loader:28:7)
 ----
 ====
+
+=== Use custom fonts
+
+To use your own fonts (e.g., proprietary or brand fonts), mount a volume to the custom fonts directory:
+
+[source,console]
+----
+$ docker run -it -w /data \
+      -v $(pwd):/data \
+      -v /path/to/my/fonts:/usr/local/share/fonts/custom \
+      rlespinasse/drawio-desktop-headless
+----
+
+This works with both the `full` and `minimal` variants.
+
+NOTE: Want to add a system font package instead? Modify the `Dockerfile` to install the missing package.
+
+=== Choose an image variant
+
+The docker image is available in two font variants to balance image size and language coverage.
+
+* Use **`full`** (tag: `latest`) if your diagrams contain Chinese, Japanese, Korean, or other non-Latin scripts.
+* Use **`minimal`** (tag: `minimal`) for Latin-script diagrams only — significantly smaller image.
+
+[source,console]
+----
+$ docker pull rlespinasse/drawio-desktop-headless:latest
+$ docker pull rlespinasse/drawio-desktop-headless:minimal
+----
+
+See <<Image Variants>> for the full list of included font packages.
+
+=== Use as docker base image
+
+This docker image can be used as the base image to build a higher-level tool upon it.
+
+In addition to running configuration, you have access to
+
+- `DRAWIO_DESKTOP_EXECUTABLE_PATH` to have access to the executable path of Draw.io Desktop.
+- `DRAWIO_DESKTOP_RUNNER_COMMAND_LINE` to run your script instead of the default one.
+
+==== Used by
+
+* Docker image https://github.com/rlespinasse/drawio-export[**rlespinasse/drawio-export**] which enhance export capabilities of the **Draw.io Desktop Headless** docker image,
+** And GitHub Action https://github.com/rlespinasse/drawio-export-action[**rlespinasse/drawio-export-action**] which is build on top of **drawio-export** docker image.
+
+== Reference
+
+=== Image Variants
+
+==== `full` (default) — tag: `latest`
+
+Broad Unicode and CJK coverage.
+
+Included font packages:
+
+* https://packages.debian.org/trixie/fonts-liberation[fonts-liberation] — Helvetica/Arial/Times/Courier compatible
+* https://packages.debian.org/trixie/fonts-dejavu-core[fonts-dejavu-core] — broad Unicode fallback
+* https://packages.debian.org/trixie/fonts-noto-core[fonts-noto-core] — Latin, Cyrillic, Greek, Arabic, Devanagari, and more
+* https://packages.debian.org/trixie/fonts-noto-cjk[fonts-noto-cjk] — Chinese, Japanese, Korean
+* https://packages.debian.org/trixie/fonts-arphic-ukai[fonts-arphic-ukai] — Chinese serif
+* https://packages.debian.org/trixie/fonts-arphic-uming[fonts-arphic-uming] — Chinese sans-serif
+* https://packages.debian.org/trixie/fonts-ipafont-mincho[fonts-ipafont-mincho] — Japanese serif
+* https://packages.debian.org/trixie/fonts-ipafont-gothic[fonts-ipafont-gothic] — Japanese sans-serif
+* https://packages.debian.org/trixie/fonts-unfonts-core[fonts-unfonts-core] — Korean
+
+==== `minimal` — tag: `minimal`
+
+Western fonts only. Significantly smaller image.
+
+Included font packages:
+
+* https://packages.debian.org/trixie/fonts-liberation[fonts-liberation] — Helvetica/Arial/Times/Courier compatible
+* https://packages.debian.org/trixie/fonts-dejavu-core[fonts-dejavu-core] — broad Unicode fallback
 
 === Configuration
 
@@ -133,20 +209,6 @@ for days.  A duration of 0 disables the associated timeout.
 | `false`
 
 |===
-
-== Use as docker base image
-
-This docker image can be used as the base image to build a higher-level tool upon it.
-
-In addition to running configuration, you have access to
-
-- `DRAWIO_DESKTOP_EXECUTABLE_PATH` to have access to the executable path of Draw.io Desktop.
-- `DRAWIO_DESKTOP_RUNNER_COMMAND_LINE` to run your script instead of the default one.
-
-=== Used by
-
-* Docker image https://github.com/rlespinasse/drawio-export[**rlespinasse/drawio-export**] which enhance export capabilities of the **Draw.io Desktop Headless** docker image,
-** And GitHub Action https://github.com/rlespinasse/drawio-export-action[**rlespinasse/drawio-export-action**] which is build on top of **drawio-export** docker image.
 
 == Thanks to
 
