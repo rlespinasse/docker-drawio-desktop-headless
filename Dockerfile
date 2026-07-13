@@ -18,7 +18,7 @@ apt-get clean
 
 # Deps
 apt-get update
-apt-get install -y xvfb wget libgbm1 libasound2
+apt-get install -y xvfb wget libgbm1 libasound2 dbus dbus-x11
 
 # Drawio Desktop
 DRAWIO_VERSION="30.2.6"
