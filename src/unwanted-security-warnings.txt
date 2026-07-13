@@ -1,4 +1,5 @@
-Failed to call
-Failed to connect
-Failed to post
-Floss manager service
+"Aborted(CompileError: WebAssembly.instantiate(): Compiling
+"Uncaught (in promise)
+"failed to asynchronously
+"warning: Loading from
+wasm load failed;
