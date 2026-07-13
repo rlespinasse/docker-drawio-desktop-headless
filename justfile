@@ -101,8 +101,16 @@ patch-unwanted-security-warnings:
 [private]
 patch-tests:
   #!/usr/bin/env bash
-  mv tests/data/issue-20/frame-bug-dark.svg tests/expected/issue-20-frame-bug-dark.svg
-  mv tests/data/issue-20/frame-bug-light.svg tests/expected/issue-20-frame-bug-light.svg
+  normalize_svg_id() {
+    sed 's/ id="ge-svg-[^"]*"//; s/#ge-svg-[a-zA-Z0-9_-]*/dummy-id/g' "$1"
+  }
+  for theme in dark light; do
+    actual="tests/data/issue-20/frame-bug-${theme}.svg"
+    expected="tests/expected/issue-20-frame-bug-${theme}.svg"
+    if ! diff -q <(normalize_svg_id "$actual") <(normalize_svg_id "$expected") >/dev/null; then
+      mv "$actual" "$expected"
+    fi
+  done
   mv tests/data/fonts/chinese.png tests/expected/fonts-chinese.png
   git diff --exit-code tests/expected || \
     echo "Test files have been updated. Please check the changes before committing."
