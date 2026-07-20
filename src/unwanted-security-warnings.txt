@@ -1,5 +1,0 @@
-"Aborted(CompileError: WebAssembly.instantiate(): Compiling
-"Uncaught (in promise)
-"failed to asynchronously
-"warning: Loading from
-wasm load failed;
