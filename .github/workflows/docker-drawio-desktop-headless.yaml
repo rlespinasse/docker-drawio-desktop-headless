@@ -113,7 +113,9 @@ jobs:
           token: ${{ secrets.GH_TOKEN || github.token }}
 
       - name: Apply Patch
-        run: echo "${{ needs.build.outputs.patch-diff }}" | git apply -
+        env:
+          PATCH_DIFF: ${{ needs.build.outputs.patch-diff }}
+        run: printf '%s' "$PATCH_DIFF" | git apply -
 
       - name: Comment Patch Diff on PR
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0

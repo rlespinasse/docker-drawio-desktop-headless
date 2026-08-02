@@ -1,6 +1,10 @@
 {
   "threshold": 0,
   "reporters": ["consoleFull"],
-  "ignore": ["**/__snapshots__/**", "**/node_modules/**", ".github/workflows/**"],
+  "ignore": [
+    "**/__snapshots__/**",
+    "**/node_modules/**",
+    ".github/workflows/**"
+  ],
   "absolute": true
 }
