@@ -5,12 +5,12 @@
 
 @test "Issue 20 : frame bug / svg :: theme=light" {
   docker_test "" 0 "export-issue-20-light" "tests/data" -x -f svg issue-20/frame-bug-light.drawio --svg-theme light
-  diff <(xmllint --format tests/expected/issue-20-frame-bug-light.svg) <(xmllint --format tests/data/issue-20/frame-bug-light.svg)
+  diff <(xmllint --format tests/expected/issue-20-frame-bug-light.svg | sed 's/ id="ge-svg-[^"]*"//; s/#ge-svg-[a-zA-Z0-9_-]*/dummy-id/g') <(xmllint --format tests/data/issue-20/frame-bug-light.svg | sed 's/ id="ge-svg-[^"]*"//; s/#ge-svg-[a-zA-Z0-9_-]*/dummy-id/g')
 }
 
 @test "Issue 20 : frame bug / svg :: theme=dark" {
   docker_test "" 0 "export-issue-20-dark" "tests/data" -x -f svg issue-20/frame-bug-dark.drawio --svg-theme dark
-  diff <(xmllint --format tests/expected/issue-20-frame-bug-dark.svg) <(xmllint --format tests/data/issue-20/frame-bug-dark.svg)
+  diff <(xmllint --format tests/expected/issue-20-frame-bug-dark.svg | sed 's/ id="ge-svg-[^"]*"//; s/#ge-svg-[a-zA-Z0-9_-]*/dummy-id/g') <(xmllint --format tests/data/issue-20/frame-bug-dark.svg | sed 's/ id="ge-svg-[^"]*"//; s/#ge-svg-[a-zA-Z0-9_-]*/dummy-id/g')
 }
 
 @test "Issue 84 : helvetica font on png creation" {
