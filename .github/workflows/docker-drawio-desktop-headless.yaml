@@ -29,7 +29,7 @@ jobs:
       cancel-in-progress: true
 
     outputs:
-      patch-diff: ${{ steps.patch_diff_step.outputs.diff }}
+      patch-generated: ${{ steps.patch_diff_step.outputs.generated }}
 
     steps:
       - name: Checkout Source Branch
@@ -81,12 +81,14 @@ jobs:
         id: patch_diff_step
         run: |
           git diff HEAD^ HEAD > patch.diff
-          # Set output to be used by the comment action
-          {
-            echo "diff<<EOF"
-            cat patch.diff
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
+          echo "generated=true" >> "$GITHUB_OUTPUT"
+
+      - name: Store Patch Diff
+        if: steps.patch_diff_step.outputs.generated == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: patch-diff
+          path: patch.diff
 
   apply-patch:
     runs-on: ubuntu-latest
@@ -95,7 +97,7 @@ jobs:
 
     # Dependabot-triggered runs never get write access to GITHUB_TOKEN, so
     # skip this job for them rather than fail on checkout.
-    if: needs.build.outputs.patch-diff != '' && github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    if: needs.build.outputs.patch-generated == 'true' && github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
 
     permissions:
       contents: write # For stefanzweifel/git-auto-commit-action
@@ -112,10 +114,20 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GH_TOKEN || github.token }}
 
+      - name: Download Patch Diff
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: patch-diff
+
       - name: Apply Patch
-        env:
-          PATCH_DIFF: ${{ needs.build.outputs.patch-diff }}
-        run: printf '%s' "$PATCH_DIFF" | git apply -
+        id: apply_patch_step
+        run: |
+          git apply patch.diff
+          {
+            echo "diff<<EOF"
+            cat patch.diff
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Comment Patch Diff on PR
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
@@ -128,7 +140,7 @@ jobs:
             <summary>Display patch content</summary>
 
             ```diff
-            ${{ needs.build.outputs.patch-diff }}
+            ${{ steps.apply_patch_step.outputs.diff }}
             ```
             </details>
         continue-on-error: true
