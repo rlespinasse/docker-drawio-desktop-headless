@@ -20,13 +20,16 @@ jobs:
       matrix:
         font_variant: [full, minimal]
 
-    permissions:
-      contents: write # For stefanzweifel/git-auto-commit-action
-      pull-requests: write # For peter-evans/create-or-update-comment
-
+    # No write permissions here: Dependabot-triggered runs get GITHUB_TOKEN
+    # blanked out (breaking even checkout) if the job requests write scopes
+    # it isn't allowed to have. The patch commit/comment steps that need
+    # write access live in the `apply-patch` job instead.
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.font_variant }}-${{ github.event_name }}
       cancel-in-progress: true
+
+    outputs:
+      patch-diff: ${{ steps.patch_diff_step.outputs.diff }}
 
     steps:
       - name: Checkout Source Branch
@@ -85,9 +88,35 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
+  apply-patch:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    # Dependabot-triggered runs never get write access to GITHUB_TOKEN, so
+    # skip this job for them rather than fail on checkout.
+    if: needs.build.outputs.patch-diff != '' && github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+
+    permissions:
+      contents: write # For stefanzweifel/git-auto-commit-action
+      pull-requests: write # For peter-evans/create-or-update-comment
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-apply-patch
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout Source Branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GH_TOKEN || github.token }}
+
+      - name: Apply Patch
+        run: echo "${{ needs.build.outputs.patch-diff }}" | git apply -
+
       - name: Comment Patch Diff on PR
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
-        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full' && github.event_name == 'pull_request' && steps.patch_diff_step.outputs.diff != ''
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
@@ -97,14 +126,13 @@ jobs:
             <summary>Display patch content</summary>
 
             ```diff
-            ${{ steps.patch_diff_step.outputs.diff }}
+            ${{ needs.build.outputs.patch-diff }}
             ```
             </details>
         continue-on-error: true
 
-      - name: Commit and Push Patch (if needed)
+      - name: Commit and Push Patch
         uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
-        if: steps.test_ci.outcome == 'failure' && matrix.font_variant == 'full'
         with:
           commit_message: "fix: apply automated patch after tests failure"
           branch: ${{ github.head_ref }}
