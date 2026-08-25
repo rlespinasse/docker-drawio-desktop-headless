@@ -21,7 +21,7 @@ apt-get update
 apt-get install -y xvfb wget libgbm1 libasound2 dbus dbus-x11
 
 # Drawio Desktop
-DRAWIO_VERSION="31.1.8"
+DRAWIO_VERSION="31.3.2"
 wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 apt-get install -y /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
 rm -rf /opt/drawio-desktop/drawio-${TARGETARCH}-${DRAWIO_VERSION}.deb
