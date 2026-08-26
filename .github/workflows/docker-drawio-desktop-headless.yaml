@@ -40,9 +40,7 @@ jobs:
 
       - uses: rlespinasse/github-slug-action@ef93b2ea4b6405d06fd8684fc3ff795d262ecae8 # v5.7.0
 
-      - uses: taiki-e/install-action@6cd13508893c0e7eab5f273c2575d3859bd7229a # v2.86.6
-        with:
-          tool: just
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
       - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build
@@ -186,9 +184,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-${{ matrix.font_variant }}-
 
-      - uses: taiki-e/install-action@6cd13508893c0e7eab5f273c2575d3859bd7229a # v2.86.6
-        with:
-          tool: just
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
       - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build-multiarch
