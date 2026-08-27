@@ -62,11 +62,41 @@ test-ci:
 [group('Maintenance mode')]
 autoupdate-drawio-desktop:
   #!/usr/bin/env bash
+  set -euo pipefail
+  CURRENT_VERSION=$(sed -n 's/.*DRAWIO_VERSION="\([^"]*\)".*/\1/p' Dockerfile | head -1)
   DRAWIO_DESKTOP_RELEASE=$(gh release list --repo jgraph/drawio-desktop | grep "Latest" | cut -f1)
   sed -i 's/DRAWIO_VERSION=.*/DRAWIO_VERSION="'$DRAWIO_DESKTOP_RELEASE'"/' Dockerfile
   sed -i 's/Draw\.io Desktop v.*/Draw.io Desktop v'$DRAWIO_DESKTOP_RELEASE'\]/' README.adoc
   if [ -n "${GITHUB_OUTPUT}" ]; then
     echo "release_version=$DRAWIO_DESKTOP_RELEASE" >> "${GITHUB_OUTPUT}"
+
+    RELEASE_NOTES=$(gh release view "v$DRAWIO_DESKTOP_RELEASE" --repo jgraph/drawio-desktop --json body -q .body)
+    CHANGELOG=$(curl -fsSL "https://raw.githubusercontent.com/jgraph/drawio/v${DRAWIO_DESKTOP_RELEASE}/ChangeLog" || true)
+    if [ -n "$CHANGELOG" ] && grep -qE "^[0-9]{2}-[A-Z]{3}-[0-9]{4}: ${CURRENT_VERSION}$" <<< "$CHANGELOG"; then
+      CORE_CHANGES=$(awk -v old="$CURRENT_VERSION" '
+        /^[0-9]{2}-[A-Z]{3}-[0-9]{4}: / {
+          ver=$0; sub(/^[0-9]{2}-[A-Z]{3}-[0-9]{4}: /, "", ver)
+          if (ver == old) exit
+        }
+        { print }
+      ' <<< "$CHANGELOG")
+    else
+      CORE_CHANGES="See [draw.io core ChangeLog](https://github.com/jgraph/drawio/blob/v${DRAWIO_DESKTOP_RELEASE}/ChangeLog)."
+    fi
+
+    {
+      echo "release_notes<<GH_RELEASE_NOTES_EOF"
+      echo "Updates \`drawio-desktop\` from \`$CURRENT_VERSION\` to \`$DRAWIO_DESKTOP_RELEASE\`."
+      echo
+      echo "### drawio-desktop release notes"
+      echo
+      echo "$RELEASE_NOTES"
+      echo
+      echo "### draw.io core ChangeLog ($CURRENT_VERSION -> $DRAWIO_DESKTOP_RELEASE)"
+      echo
+      echo "$CORE_CHANGES"
+      echo "GH_RELEASE_NOTES_EOF"
+    } >> "${GITHUB_OUTPUT}"
   fi
   echo "Updated to Draw.io Desktop version $DRAWIO_DESKTOP_RELEASE"
 
