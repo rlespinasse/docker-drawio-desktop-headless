@@ -6,5 +6,6 @@ if [[ "${SCRIPT_DEBUG_MODE:-false}" == "true" ]]; then
 fi
 
 "${DRAWIO_DESKTOP_EXECUTABLE_PATH:?}" "$@" --no-sandbox --disable-gpu \
+  --disable-update \
   --disable-features=VaapiVideoDecoder,VaapiVideoEncoder \
   --disable-accelerated-video-decode --disable-accelerated-video-encode
