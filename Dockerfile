@@ -63,7 +63,9 @@ mkdir -p /usr/local/share/fonts/custom
 chmod a+w .
 EOF
 
-COPY --chmod=755 src/* ./
+COPY src/helvetica-font-substitution.conf /etc/fonts/conf.d/99-helvetica-substitution.conf
+
+COPY --chmod=755 src/*.sh src/*.txt ./
 
 ENV ELECTRON_DISABLE_SECURITY_WARNINGS="true"
 ENV DRAWIO_DISABLE_UPDATE="true"
