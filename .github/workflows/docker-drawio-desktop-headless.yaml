@@ -79,7 +79,7 @@ jobs:
         run: |
           # `just patch` only edits the working tree, it doesn't commit,
           # so diff against HEAD rather than a nonexistent patch commit.
-          git diff > patch.diff
+          git diff --binary > patch.diff
           if [ -s patch.diff ]; then
             echo "generated=true" >> "$GITHUB_OUTPUT"
           fi
