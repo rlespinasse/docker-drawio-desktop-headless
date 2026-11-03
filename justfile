@@ -142,5 +142,6 @@ patch-tests:
     fi
   done
   mv tests/data/fonts/chinese.png tests/expected/fonts-chinese.png
+  mv tests/data/issue-84/helvetica.png tests/expected/issue-84-helvetica.png
   git diff --exit-code tests/expected || \
     echo "Test files have been updated. Please check the changes before committing."
