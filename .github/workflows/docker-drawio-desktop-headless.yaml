@@ -40,7 +40,7 @@ jobs:
 
       - uses: rlespinasse/github-slug-action@0e3299190dac9a700da92a90de4556116ea965ed # v5.7.1
 
-      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - uses: jdx/mise-action@d5574b52816a478f9d4e6529a3f6ff17a8a36785 # v5.2.8
 
       - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build
@@ -184,7 +184,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-${{ matrix.font_variant }}-
 
-      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - uses: jdx/mise-action@d5574b52816a478f9d4e6529a3f6ff17a8a36785 # v5.2.8
 
       - name: Build Docker Image (${{ matrix.font_variant }})
         run: just build-multiarch
