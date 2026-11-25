@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2024-08-26T00:00:00.000Z" agent="Mozilla/5.0" etag="issue84" version="24.0.0" type="device">
+  <diagram name="Page-1" id="issue84-helvetica">
+    <mxGraphModel dx="1200" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Helvetica Regular" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Helvetica Bold" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="100" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Helvetica Italic" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="100" y="300" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Helvetica Bold Italic" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=16;fontStyle=3;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="100" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
